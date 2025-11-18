@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneDettyDecember - Visual Brand Palette</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #FFB700 0%, #E63946 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            background: #1A1A1A;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 183, 0, 0.1) 10px,
+                rgba(255, 183, 0, 0.1) 20px
+            );
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: #FFB700;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tagline {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #FFB700;
+            display: inline-block;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .color-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .color-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .color-sample {
+            height: 120px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .color-sample::after {
+            content: 'CLICK TO COPY';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .color-card:hover .color-sample::after {
+            opacity: 1;
+        }
+        
+        .color-info {
+            padding: 15px;
+            background: #f8f8f8;
+        }
+        
+        .color-name {
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .color-codes {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .color-meaning {
+            font-size: 11px;
+            color: #999;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .palette-row {
+            display: flex;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .palette-color {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: flex 0.3s ease;
+        }
+        
+        .palette-color:hover {
+            flex: 1.5;
+        }
+        
+        .combinations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .combo-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .combo-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #1A1A1A;
+        }
+        
+        .combo-preview {
+            display: flex;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .combo-color {
+            flex: 1;
+        }
+        
+        .combo-usage {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .pattern-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .pattern-card {
+            height: 200px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pattern-1 {
+            background: linear-gradient(45deg, #FFB700 25%, transparent 25%, transparent 75%, #FFB700 75%, #FFB700),
+                        linear-gradient(45deg, #FFB700 25%, transparent 25%, transparent 75%, #FFB700 75%, #FFB700);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-color: #1A1A1A;
+        }
+        
+        .pattern-2 {
+            background: radial-gradient(circle at 20% 50%, transparent 20%, #2A9D8F 21%, #2A9D8F 24%, transparent 25%),
+                        radial-gradient(circle at 50% 50%, transparent 20%, #E63946 21%, #E63946 24%, transparent 25%),
+                        radial-gradient(circle at 80% 50%, transparent 20%, #FFB700 21%, #FFB700 24%, transparent 25%);
+            background-size: 50px 50px;
+            background-color: #f0f0f0;
+        }
+        
+        .pattern-3 {
+            background: repeating-linear-gradient(
+                0deg,
+                #264653,
+                #264653 10px,
+                #FFB700 10px,
+                #FFB700 15px,
+                #E63946 15px,
+                #E63946 20px,
+                #2A9D8F 20px,
+                #2A9D8F 25px
+            );
+        }
+        
+        .pattern-label {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .footer {
+            background: #1A1A1A;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .footer-text {
+            color: #FFB700;
+            font-size: 14px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #2A9D8F;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ONEDETTYDECEMBER</h1>
+            <p class="tagline">UNIFIED COLORS OF LAGOS & ACCRA</p>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">PRIMARY COLORS</h2>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-sample" style="background: #FFB700;" onclick="copyToClipboard('#FFB700')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Detty Gold</div>
+                        <div class="color-codes">
+                            HEX: #FFB700<br>
+                            RGB: 255, 183, 0
+                        </div>
+                        <div class="color-meaning">Prosperity & Celebration</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-sample" style="background: #1A1A1A;" onclick="copyToClipboard('#1A1A1A')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Unity Black</div>
+                        <div class="color-codes">
+                            HEX: #1A1A1A<br>
+                            RGB: 26, 26, 26
+                        </div>
+                        <div class="color-meaning">Spiritual Grounding</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-sample" style="background: #E63946;" onclick="copyToClipboard('#E63946')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Lagos Pulse Red</div>
+                        <div class="color-codes">
+                            HEX: #E63946<br>
+                            RGB: 230, 57, 70
+                        </div>
+                        <div class="color-meaning">Energy & Passion</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">SECONDARY COLORS</h2>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-sample" style="background: #2A9D8F;" onclick="copyToClipboard('#2A9D8F')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Accra Emerald</div>
+                        <div class="color-codes">
+                            HEX: #2A9D8F<br>
+                            RGB: 42, 157, 143
+                        </div>
+                        <div class="color-meaning">Growth & Renewal</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-sample" style="background: #7209B7;" onclick="copyToClipboard('#7209B7')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Highlife Purple</div>
+                        <div class="color-codes">
+                            HEX: #7209B7<br>
+                            RGB: 114, 9, 183
+                        </div>
+                        <div class="color-meaning">Creativity & Luxury</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-sample" style="background: #264653;" onclick="copyToClipboard('#264653')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Adire Indigo</div>
+                        <div class="color-codes">
+                            HEX: #264653<br>
+                            RGB: 38, 70, 83
+                        </div>
+                        <div class="color-meaning">Heritage & Depth</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">ACCENT COLORS</h2>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-sample" style="background: #FFD60A;" onclick="copyToClipboard('#FFD60A')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Danfo Yellow</div>
+                        <div class="color-codes">
+                            HEX: #FFD60A<br>
+                            RGB: 255, 214, 10
+                        </div>
+                        <div class="color-meaning">Highlights & Energy</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-sample" style="background: #FB8500;" onclick="copyToClipboard('#FB8500')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Sunset Orange</div>
+                        <div class="color-codes">
+                            HEX: #FB8500<br>
+                            RGB: 251, 133, 0
+                        </div>
+                        <div class="color-meaning">Warmth & Festivity</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-sample" style="background: #003566;" onclick="copyToClipboard('#003566')"></div>
+                    <div class="color-info">
+                        <div class="color-name">Ocean Blue</div>
+                        <div class="color-codes">
+                            HEX: #003566<br>
+                            RGB: 0, 53, 102
+                        </div>
+                        <div class="color-meaning">Trust & Premium</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">FULL PALETTE</h2>
+            <div class="palette-row">
+                <div class="palette-color" style="background: #FFB700;" onclick="copyToClipboard('#FFB700')">
+                    <span>DETTY GOLD</span>
+                </div>
+                <div class="palette-color" style="background: #1A1A1A;" onclick="copyToClipboard('#1A1A1A')">
+                    <span>UNITY BLACK</span>
+                </div>
+                <div class="palette-color" style="background: #E63946;" onclick="copyToClipboard('#E63946')">
+                    <span>PULSE RED</span>
+                </div>
+                <div class="palette-color" style="background: #2A9D8F;" onclick="copyToClipboard('#2A9D8F')">
+                    <span>EMERALD</span>
+                </div>
+                <div class="palette-color" style="background: #7209B7;" onclick="copyToClipboard('#7209B7')">
+                    <span>PURPLE</span>
+                </div>
+            </div>
+            
+            <h2 class="section-title">COLOR COMBINATIONS</h2>
+            <div class="combinations">
+                <div class="combo-card">
+                    <div class="combo-title">Main Brand</div>
+                    <div class="combo-preview">
+                        <div class="combo-color" style="background: #FFB700; flex: 3;"></div>
+                        <div class="combo-color" style="background: #1A1A1A; flex: 2;"></div>
+                        <div class="combo-color" style="background: #E63946; flex: 1;"></div>
+                    </div>
+                    <div class="combo-usage">Primary brand applications, main website, core marketing materials</div>
+                </div>
+                
+                <div class="combo-card">
+                    <div class="combo-title">Lagos Energy</div>
+                    <div class="combo-preview">
+                        <div class="combo-color" style="background: #FFD60A;"></div>
+                        <div class="combo-color" style="background: #E63946;"></div>
+                        <div class="combo-color" style="background: #FB8500;"></div>
+                    </div>
+                    <div class="combo-usage">Lagos-specific content, party promotions, high-energy events</div>
+                </div>
+                
+                <div class="combo-card">
+                    <div class="combo-title">Accra Culture</div>
+                    <div class="combo-preview">
+                        <div class="combo-color" style="background: #2A9D8F;"></div>
+                        <div class="combo-color" style="background: #FFB700;"></div>
+                        <div class="combo-color" style="background: #264653;"></div>
+                    </div>
+                    <div class="combo-usage">Accra-focused content, cultural events, art exhibitions</div>
+                </div>
+                
+                <div class="combo-card">
+                    <div class="combo-title">Premium Experience</div>
+                    <div class="combo-preview">
+                        <div class="combo-color" style="background: #1A1A1A; flex: 3;"></div>
+                        <div class="combo-color" style="background: #FFB700; flex: 1;"></div>
+                        <div class="combo-color" style="background: #7209B7; flex: 1;"></div>
+                    </div>
+                    <div class="combo-usage">VIP experiences, luxury partnerships, exclusive events</div>
+                </div>
+                
+                <div class="combo-card">
+                    <div class="combo-title">Heritage Collection</div>
+                    <div class="combo-preview">
+                        <div class="combo-color" style="background: #264653;"></div>
+                        <div class="combo-color" style="background: #2A9D8F;"></div>
+                        <div class="combo-color" style="background: #FFB700;"></div>
+                        <div class="combo-color" style="background: #E63946;"></div>
+                    </div>
+                    <div class="combo-usage">Traditional content, cultural heritage, historical features</div>
+                </div>
+                
+                <div class="combo-card">
+                    <div class="combo-title">Festival Vibes</div>
+                    <div class="combo-preview">
+                        <div class="combo-color" style="background: #FFB700;"></div>
+                        <div class="combo-color" style="background: #FB8500;"></div>
+                        <div class="combo-color" style="background: #E63946;"></div>
+                        <div class="combo-color" style="background: #7209B7;"></div>
+                        <div class="combo-color" style="background: #2A9D8F;"></div>
+                    </div>
+                    <div class="combo-usage">Festival promotions, celebration graphics, party flyers</div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">PATTERN INSPIRATION</h2>
+            <div class="pattern-showcase">
+                <div class="pattern-card pattern-1">
+                    <div class="pattern-label">Unity Pattern</div>
+                </div>
+                <div class="pattern-card pattern-2">
+                    <div class="pattern-label">Celebration Pattern</div>
+                </div>
+                <div class="pattern-card pattern-3">
+                    <div class="pattern-label">Heritage Pattern</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p class="footer-text">© 2025 OneDettyDecember | Celebrating West African Excellence</p>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">Color copied to clipboard!</div>
+    
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                const toast = document.getElementById('toast');
+                toast.textContent = text + ' copied!';
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

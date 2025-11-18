@@ -1,0 +1,187 @@
+Section,Metric,Year 1 (2026),Year 2 (2027),Year 3 (2028),Notes
+
+KEY ASSUMPTIONS,,,,,
+,Average Booking Value,$450,$480,$520,Increases with more premium experiences
+,Platform Commission Rate,18%,19%,20%,Gradually increase as brand strengthens
+,Commission per Booking,$81,$91,$104,Average commission earned
+,Total Bookings,"15,000","35,000","65,000",Growth trajectory
+,Gross Merchandise Value (GMV),"$7,500,000","$18,000,000","$35,000,000",Total transaction volume
+
+REVENUE BREAKDOWN,,,,,
+,Commission Revenue,"$1,350,000","$3,185,000","$6,760,000",Primary revenue (GMV × commission rate)
+,Vendor Subscriptions,$120,000,$250,000,$450,000,Premium vendor memberships
+,Promoted Listings,$50,000,$180,000,$360,000,Advertising revenue from vendors
+,Merchandise Sales,$40,000,$180,000,$350,000,"T-shirts, hoodies, accessories"
+,Content & Sponsorships,$10,000,$80,000,$200,000,Sponsored content and partnerships
+,Premium User Subscriptions,$0,$45,000,$120,000,Detty December Plus ($9.99/month)
+TOTAL REVENUE,,"$1,570,000","$3,920,000","$8,240,000",All revenue streams combined
+
+QUARTERLY REVENUE (Year 1),,,,,
+,Q1 Revenue,$45,000,,,January-March (off-season)
+,Q2 Revenue,$130,000,,,April-June (growing)
+,Q3 Revenue,$215,000,,,July-September (building momentum)
+,Q4 Revenue,$960,000,,,October-December (PEAK SEASON - 61%)
+,Q4 % of Total,61%,,,Highly seasonal in Year 1
+
+COST OF REVENUE,,,,,
+,Payment Processing Fees,$150,000,$360,000,$700,000,2% of GMV (Stripe/Paystack fees)
+,Customer Support,$48,000,$120,000,$200,000,"3 support staff Year 1, 8 Year 2, 12 Year 3"
+,Hosting & Infrastructure,$24,000,$48,000,$84,000,"Vercel, Supabase, Cloudflare"
+,Fraud Prevention,$12,000,$36,000,$70,000,Stripe Radar and manual review
+TOTAL COST OF REVENUE,,$234,000,$564,000,"$1,054,000",
+
+GROSS PROFIT,,"$1,336,000","$3,356,000","$7,186,000",Revenue - Cost of Revenue
+GROSS MARGIN,,85%,86%,87%,Improving with scale
+
+OPERATING EXPENSES,,,,,
+,,,,,
+SALES & MARKETING,,,,,
+,Content Marketing (SEO),$40,000,$60,000,$80,000,"Writers, editors, videographers"
+,Paid Advertising,"$160,000","$400,000","$700,000","Google, Facebook, TikTok ads"
+,Influencer Marketing,$40,000,$80,000,$120,000,162+ influencers Year 1
+,Email Marketing,$15,000,$30,000,$45,000,"Resend, campaigns"
+,PR & Media,$20,000,$40,000,$60,000,Press releases and media outreach
+,Events & Activations,$15,000,$40,000,$80,000,"Launch party, on-ground activations"
+,Partnerships & Affiliates,$10,000,$30,000,$50,000,Partnership development
+,Marketing Team Salaries,$120,000,$240,000,$360,000,"2-3 people Year 1, 5-6 Year 2"
+TOTAL SALES & MARKETING,,"$420,000","$920,000","$1,495,000",27% of revenue Year 1
+
+PRODUCT & TECHNOLOGY,,,,,
+,Engineering Salaries,$180,000,$360,000,$540,000,"3 engineers Year 1, 6 Year 2, 9 Year 3"
+,Product Manager,$90,000,$120,000,$150,000,1 PM then senior PM
+,Designer (UI/UX),$60,000,$120,000,$180,000,1 designer then 2
+,Software Licenses,$12,000,$24,000,$36,000,"GitHub, tools, services"
+,Bug Bounty & Security,$6,000,$12,000,$24,000,Security audits
+TOTAL PRODUCT & TECH,,"$348,000","$636,000","$930,000",22% of revenue Year 1
+
+GENERAL & ADMINISTRATIVE,,,,,
+,Founder/CEO Salary,$100,000,$150,000,$200,000,
+,Operations Manager,$60,000,$80,000,$100,000,
+,Finance & Accounting,$36,000,$48,000,$72,000,"Bookkeeper, eventually CFO"
+,Legal & Compliance,$24,000,$36,000,$48,000,"Contracts, terms, compliance"
+,Office & Admin,$18,000,$30,000,$48,000,"Co-working, tools, misc"
+,Insurance,$12,000,$18,000,$30,000,"Liability, D&O insurance"
+TOTAL G&A,,"$250,000","$362,000","$498,000",16% of revenue Year 1
+
+TOTAL OPERATING EXPENSES,,"$1,018,000","$1,918,000","$2,923,000",65% of revenue Year 1
+
+EBITDA (Operating Profit),,$318,000,"$1,438,000","$4,263,000",Revenue - All Expenses
+EBITDA MARGIN,,20%,37%,52%,Strong improvement with scale
+
+Depreciation & Amortization,,$6,000,$12,000,$18,000,Minimal for SaaS business
+Interest Expense,,$0,$0,$0,Assuming equity financing only
+
+NET INCOME,,$312,000,"$1,426,000","$4,245,000",Bottom line profit
+NET MARGIN,,20%,36%,52%,Path to strong profitability
+
+CASH FLOW,,,,,
+,Operating Cash Flow,$318,000,"$1,450,000","$4,281,000",EBITDA + changes in working capital
+,Capital Expenditures,-$20,000,-$30,000,-$40,000,"Equipment, improvements"
+,Free Cash Flow,$298,000,"$1,420,000","$4,241,000",Cash available after CapEx
+
+BALANCE SHEET HIGHLIGHTS,,,,,
+,Cash (End of Year),$798,000,"$2,218,000","$6,459,000",Assuming $500K starting capital
+,Accounts Receivable,$125,000,$327,000,$687,000,~30 days of commission revenue
+,Vendor Payables,-$450,000,-$1,080,000,-$2,100,000,Amounts owed to vendors
+
+UNIT ECONOMICS,,,,,
+,Customer Acquisition Cost (CAC),$60,$45,$35,Decreasing with brand strength
+,Customer Lifetime Value (LTV),$365,$440,$550,Increasing retention and repeat bookings
+,LTV:CAC Ratio,6.1,9.8,15.7,Very healthy ratios (>3:1)
+,Payback Period (days),60,40,30,Time to recover CAC
+,Monthly Retention Rate,40%,60%,75%,Customers who book again next year
+
+BOOKINGS BY QUARTER (Year 1),,,,,
+,Q1 Bookings,500,,,3% of annual
+,Q2 Bookings,"1,500",,,10% of annual
+,Q3 Bookings,"2,500",,,17% of annual
+,Q4 Bookings,"10,500",,,70% of annual (PEAK)
+
+VENDOR METRICS,,,,,
+,Active Vendors (End of Year),500,"1,000","1,800",Growing vendor base
+,Avg Listings per Vendor,2,2.5,3,Vendors add more listings over time
+,Total Listings,"1,000","2,500","5,400",
+,Avg Vendor Revenue,$9,000,$10,800,$11,667,GMV per vendor
+
+CUSTOMER METRICS,,,,,
+,Total Registered Users,"100,000","250,000","500,000",Not all book
+,Monthly Active Users (MAU),"15,000","50,000","100,000",Users visiting platform monthly
+,Conversion Rate (Visitor to Booker),2%,3%,4%,Improving conversion
+,Repeat Customer Rate,40%,60%,75%,Strong retention
+,Average Bookings per Customer,1.5,1.8,2.0,Increasing frequency
+
+MARKETING FUNNEL,,,,,
+,Website Visitors (Annual),"1,200,000","2,500,000","4,500,000",
+,Email Subscribers,"50,000","120,000","250,000",
+,Social Media Followers,"100,000","300,000","650,000",Total across all platforms
+,Organic Search Traffic (Monthly),"50,000","150,000","350,000",SEO results
+
+FUNDRAISING & VALUATION,,,,,
+,Funding Raised,$500,000,"$3,000,000",N/A,Seed + Series A
+,Valuation (Post-Money),"$3,000,000","$18,000,000","$50,000,000",Conservative estimates
+,Revenue Multiple,1.9x,4.6x,6.1x,Based on comparable SaaS marketplaces
+,Equity Dilution,17%,30%,N/A,Total dilution post Series A
+
+KEY MILESTONES,,,,,
+,Month to Break-Even,6,N/A,N/A,Profitable from Month 6
+,Month to $1M Revenue,10,N/A,N/A,October 2026
+,Rank #1 for Detty December,6,N/A,N/A,SEO goal achieved
+,Mobile App Launch,N/A,Q1,N/A,Native apps Year 2
+,International Expansion,N/A,Q2,N/A,5 markets Year 2
+
+RISK SCENARIOS,,,,,
+,,,,,
+CONSERVATIVE (70% of targets),,,,,
+,Total Bookings,"10,500","24,500","45,500",
+,Revenue,"$1,099,000","$2,744,000","$5,768,000",
+,Net Income,$118,000,$738,000,"$2,871,000",Still profitable
+
+AGGRESSIVE (130% of targets),,,,,
+,Total Bookings,"19,500","45,500","84,500",
+,Revenue,"$2,041,000","$5,096,000","$10,712,000",
+,Net Income,$506,000,"$2,154,000","$6,177,000",Very strong growth
+
+SENSITIVITY ANALYSIS,,,,,
+,If Commission Rate -2%,"$1,420,000","$3,560,000","$7,540,000",-9.6% revenue impact
+,If Bookings -20%,"$1,256,000","$3,136,000","$6,592,000",-20% revenue impact
+,If CAC +50%,-$74,000,"$1,006,000","$3,497,000",Break-even pushed to Month 12
+
+BENCHMARK COMPARISONS,,,,,
+,vs. Airbnb (early years),Similar GMV growth trajectory,,,Airbnb did $100M GMV Year 3
+,vs. Eventbrite (early years),Higher commission rate,,,Eventbrite charges 3-5%
+,vs. TravelStart (Africa),Faster growth potential,,,TravelStart sold for $40M
+,vs. Wakanow (Nigeria),Better tech + UX,,,Wakanow raised $40M+
+
+SUMMARY METRICS,,,,,
+,GMV Growth (YoY),N/A,140%,94%,Strong growth trajectory
+,Revenue Growth (YoY),N/A,150%,110%,Outpacing GMV due to commission increase
+,Profit Margin,20%,36%,52%,Path to highly profitable business
+,Cash Generated (3 years),,"$5,959,000",,Strong cash generation
+
+CAPITAL ALLOCATION (Cumulative),,,,,
+,Retained in Company,60%,70%,80%,Building reserves
+,Dividends,0%,0%,0%,Reinvesting for growth
+,Share Buybacks,0%,0%,0%,Too early stage
+
+TEAM SIZE,,,,,
+,Total Headcount (EoY),15,35,60,
+,Engineering,3,6,9,
+,Product,1,2,3,
+,Design,1,2,3,
+,Marketing,3,6,9,
+,Sales & Partnerships,2,5,10,
+,Customer Support,3,8,12,
+,Operations & Admin,2,6,14,
+
+EXIT SCENARIOS (Year 5 projections),,,,,
+,Conservative Exit (3x Revenue),,,"$36,000,000",Year 5 revenue est. $12M
+,Mid Exit (5x Revenue),,,"$60,000,000",Year 5 revenue est. $12M
+,Optimistic Exit (8x Revenue),,,"$96,000,000",Year 5 revenue est. $12M
+,Strategic Buyer Premium,,,+30-50%,Booking.com / Expedia acquisition
+
+INVESTMENT RETURNS,,,,,
+,Seed Investment ($500K at $3M val),,,,"16.7% ownership",
+,Series A Investment ($2.5M at $18M val),,,,"13.9% additional",
+,Total Investor Ownership (post-A),,,,"30.6%",
+,Conservative Exit Return (3 years),,,,"11.1x on invested $3M",
+,Optimistic Exit Return (5 years),,,,"32x on invested $3M",Exceptional returns

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="120" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- OneDettyDecember Logo - Light Version (for dark backgrounds) -->
+  
+  <!-- Decorative Element: Stylized "1" with West African pattern -->
+  <g id="icon">
+    <!-- Main "1" Shape with celebration burst -->
+    <circle cx="35" cy="60" r="30" fill="#FFFFFF" opacity="0.1"/>
+    <path d="M 25 75 L 25 45 L 35 35 L 35 75 L 45 75" 
+          stroke="#FFFFFF" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+    
+    <!-- Celebration burst lines -->
+    <line x1="35" y1="25" x2="35" y2="15" stroke="#FFC857" stroke-width="3" stroke-linecap="round"/>
+    <line x1="50" y1="32" x2="57" y2="25" stroke="#FFC857" stroke-width="3" stroke-linecap="round"/>
+    <line x1="55" y1="50" x2="65" y2="50" stroke="#FFC857" stroke-width="3" stroke-linecap="round"/>
+    <line x1="20" y1="32" x2="13" y2="25" stroke="#FFC857" stroke-width="3" stroke-linecap="round"/>
+    <line x1="15" y1="50" x2="5" y2="50" stroke="#FFC857" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Small decorative dots (confetti style) -->
+    <circle cx="42" cy="25" r="2.5" fill="#E63946"/>
+    <circle cx="52" cy="42" r="2.5" fill="#06FFA5"/>
+    <circle cx="18" cy="42" r="2.5" fill="#4ECDC4"/>
+    <circle cx="28" cy="25" r="2.5" fill="#FFD166"/>
+  </g>
+  
+  <!-- Brand Name: OneDettyDecember - All White with Orange Accent -->
+  <g id="wordmark">
+    <!-- "One" in bold white -->
+    <text x="75" y="50" 
+          font-family="'Arial', 'Helvetica', sans-serif" 
+          font-size="28" 
+          font-weight="800" 
+          fill="#FFFFFF"
+          letter-spacing="-1">One</text>
+    
+    <!-- "Detty" in bold with accent color -->
+    <text x="130" y="50" 
+          font-family="'Arial', 'Helvetica', sans-serif" 
+          font-size="28" 
+          font-weight="800" 
+          fill="#FF6B35"
+          letter-spacing="-1">Detty</text>
+    
+    <!-- "December" in bold white -->
+    <text x="218" y="50" 
+          font-family="'Arial', 'Helvetica', sans-serif" 
+          font-size="28" 
+          font-weight="800" 
+          fill="#FFFFFF"
+          letter-spacing="-1">December</text>
+    
+    <!-- Tagline -->
+    <text x="75" y="75" 
+          font-family="'Arial', 'Helvetica', sans-serif" 
+          font-size="12" 
+          font-weight="400" 
+          fill="#CCCCCC"
+          letter-spacing="1">THE GLOBAL DETTY DECEMBER MARKETPLACE</text>
+  </g>
+  
+  <!-- Decorative underline accent -->
+  <rect x="75" y="80" width="60" height="2" fill="#FF6B35" rx="1"/>
+</svg>

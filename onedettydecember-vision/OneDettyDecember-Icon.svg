@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- OneDettyDecember Icon Only -->
+  <!-- Perfect for app icons, favicons, social media profile pictures -->
+  
+  <!-- Background circle (optional - can be removed for transparent) -->
+  <circle cx="40" cy="40" r="40" fill="#FF6B35"/>
+  
+  <!-- Main "1" Shape with celebration burst -->
+  <circle cx="40" cy="40" r="32" fill="#FFFFFF" opacity="0.15"/>
+  
+  <path d="M 28 58 L 28 28 L 40 18 L 40 58 L 52 58" 
+        stroke="#FFFFFF" 
+        stroke-width="7" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"/>
+  
+  <!-- Celebration burst lines -->
+  <line x1="40" y1="12" x2="40" y2="4" stroke="#FFC857" stroke-width="4" stroke-linecap="round"/>
+  <line x1="58" y1="22" x2="66" y2="14" stroke="#FFC857" stroke-width="4" stroke-linecap="round"/>
+  <line x1="68" y1="40" x2="76" y2="40" stroke="#FFC857" stroke-width="4" stroke-linecap="round"/>
+  <line x1="58" y1="58" x2="66" y2="66" stroke="#FFC857" stroke-width="4" stroke-linecap="round"/>
+  <line x1="22" y1="22" x2="14" y2="14" stroke="#FFC857" stroke-width="4" stroke-linecap="round"/>
+  <line x1="12" y1="40" x2="4" y2="40" stroke="#FFC857" stroke-width="4" stroke-linecap="round"/>
+  <line x1="22" y1="58" x2="14" y2="66" stroke="#FFC857" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Small decorative dots (confetti style) -->
+  <circle cx="48" cy="14" r="3" fill="#FFFFFF"/>
+  <circle cx="66" cy="32" r="3" fill="#FFFFFF"/>
+  <circle cx="66" cy="48" r="3" fill="#FFFFFF"/>
+  <circle cx="32" cy="14" r="3" fill="#FFFFFF"/>
+  <circle cx="14" cy="32" r="3" fill="#FFFFFF"/>
+  <circle cx="14" cy="48" r="3" fill="#FFFFFF"/>
+</svg>

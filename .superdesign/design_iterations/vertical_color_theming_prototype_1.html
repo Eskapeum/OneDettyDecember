@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneDettyDecember - Vertical Color Theming Prototype</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Brand Colors - West Africa United */
+            --detty-gold: #FFB700;
+            --unity-black: #1A1A1A;
+            --afrobeat-red: #E63946;
+            --coastal-emerald: #2A9D8F;
+            --highlife-purple: #7209B7;
+            --midnight-indigo: #264653;
+            --festival-orange: #FB8500;
+            --atlantic-blue: #003566;
+
+            /* Legacy aliases for Accra/Lagos balance */
+            --accra-emerald: var(--coastal-emerald);
+            --danfo-yellow: #FFD60A;
+
+            /* Dynamic Theme Variables */
+            --primary: var(--detty-gold);
+            --secondary: var(--unity-black);
+            --accent: var(--festival-orange);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--unity-black);
+            color: white;
+            transition: background-color 0.6s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 60px 40px;
+            border-radius: 24px;
+            margin-bottom: 40px;
+            text-align: center;
+            transition: all 0.6s ease;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Vertical Navigation */
+        .vertical-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .vertical-btn {
+            padding: 24px;
+            border-radius: 16px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 700;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vertical-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            transition: opacity 0.3s ease;
+        }
+
+        .vertical-btn:hover::before {
+            opacity: 0.2;
+        }
+
+        .vertical-btn.active {
+            border-color: currentColor;
+            transform: scale(1.05);
+        }
+
+        .vertical-btn .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        /* Stays */
+        .vertical-btn.stays {
+            background: rgba(255, 183, 0, 0.15);
+            color: var(--detty-gold);
+            border-color: var(--detty-gold);
+        }
+        .vertical-btn.stays::before { background: var(--detty-gold); }
+
+        /* Events */
+        .vertical-btn.events {
+            background: rgba(230, 57, 70, 0.15);
+            color: var(--afrobeat-red);
+            border-color: var(--afrobeat-red);
+        }
+        .vertical-btn.events::before { background: var(--afrobeat-red); }
+
+        /* Experiences */
+        .vertical-btn.experiences {
+            background: rgba(114, 9, 183, 0.15);
+            color: var(--highlife-purple);
+            border-color: var(--highlife-purple);
+        }
+        .vertical-btn.experiences::before { background: var(--highlife-purple); }
+
+        /* Cars */
+        .vertical-btn.cars {
+            background: rgba(42, 157, 143, 0.15);
+            color: var(--coastal-emerald);
+            border-color: var(--coastal-emerald);
+        }
+        .vertical-btn.cars::before { background: var(--coastal-emerald); }
+
+        /* Marketplace */
+        .vertical-btn.marketplace {
+            background: rgba(251, 133, 0, 0.15);
+            color: var(--festival-orange);
+            border-color: var(--festival-orange);
+        }
+        .vertical-btn.marketplace::before { background: var(--festival-orange); }
+
+        /* Community */
+        .vertical-btn.community {
+            background: linear-gradient(135deg, rgba(251, 133, 0, 0.15), rgba(114, 9, 183, 0.15));
+            color: var(--festival-orange);
+            border-color: var(--festival-orange);
+        }
+        .vertical-btn.community::before {
+            background: linear-gradient(135deg, var(--festival-orange), var(--highlife-purple));
+        }
+
+        /* Content Section */
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        /* Component Grid */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        /* Buttons */
+        .demo-button {
+            padding: 16px 32px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--primary);
+            color: var(--unity-black);
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-button.secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* Cards */
+        .demo-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .demo-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 16px;
+        }
+
+        .card-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* Cart Section */
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .cart-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid;
+        }
+
+        .cart-item.stays { border-left-color: var(--detty-gold); }
+        .cart-item.events { border-left-color: var(--afrobeat-red); }
+        .cart-item.cars { border-left-color: var(--coastal-emerald); }
+
+        .cart-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .cart-badge.stays {
+            background: var(--detty-gold);
+            color: var(--unity-black);
+        }
+
+        .cart-badge.events {
+            background: var(--afrobeat-red);
+            color: white;
+        }
+
+        .cart-badge.cars {
+            background: var(--coastal-emerald);
+            color: white;
+        }
+
+        /* Checkout Simulator */
+        .checkout-simulator {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .checkout-preview {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            border: 3px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .checkout-preview.gold {
+            border-color: var(--detty-gold);
+        }
+
+        .checkout-preview.red {
+            border-color: var(--afrobeat-red);
+        }
+
+        .checkout-preview.green {
+            border-color: var(--coastal-emerald);
+        }
+
+        .checkout-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .checkout-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .checkout-progress-bar {
+            height: 100%;
+            width: 60%;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-preview.gold .checkout-progress-bar {
+            background: var(--detty-gold);
+        }
+
+        .checkout-preview.red .checkout-progress-bar {
+            background: var(--afrobeat-red);
+        }
+
+        .checkout-preview.green .checkout-progress-bar {
+            background: var(--coastal-emerald);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(255, 183, 0, 0.1);
+            border-left: 4px solid var(--detty-gold);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .info-box h3 {
+            color: var(--detty-gold);
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>OneDettyDecember</h1>
+            <p>Vertical Color Theming System - Interactive Prototype</p>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>🎨 How This Works</h3>
+            <p>Click on any vertical below to see the entire interface transform with that vertical's color theme. Watch buttons, cards, and components adapt in real-time!</p>
+        </div>
+
+        <!-- Vertical Navigation -->
+        <div class="vertical-nav">
+            <div class="vertical-btn stays active" onclick="switchVertical('stays')">
+                <div class="icon">🏨</div>
+                <div>Stays</div>
+                <small style="opacity: 0.7;">Detty Gold</small>
+            </div>
+            <div class="vertical-btn events" onclick="switchVertical('events')">
+                <div class="icon">🎉</div>
+                <div>Events</div>
+                <small style="opacity: 0.7;">Afrobeat Red</small>
+            </div>
+            <div class="vertical-btn experiences" onclick="switchVertical('experiences')">
+                <div class="icon">✨</div>
+                <div>Experiences</div>
+                <small style="opacity: 0.7;">Highlife Purple</small>
+            </div>
+            <div class="vertical-btn cars" onclick="switchVertical('cars')">
+                <div class="icon">🚗</div>
+                <div>Cars & Transfers</div>
+                <small style="opacity: 0.7;">Coastal Emerald</small>
+            </div>
+            <div class="vertical-btn marketplace" onclick="switchVertical('marketplace')">
+                <div class="icon">🛍️</div>
+                <div>Marketplace</div>
+                <small style="opacity: 0.7;">Festival Orange</small>
+            </div>
+            <div class="vertical-btn community" onclick="switchVertical('community')">
+                <div class="icon">👥</div>
+                <div>Community</div>
+                <small style="opacity: 0.7;">Festival + Highlife</small>
+            </div>
+        </div>
+
+        <!-- Component Showcase -->
+        <div class="content-section">
+            <h2 class="section-title">Component Examples</h2>
+
+            <h3 style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">Buttons</h3>
+            <div style="display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap;">
+                <button class="demo-button">Primary Button</button>
+                <button class="demo-button secondary">Secondary Button</button>
+            </div>
+
+            <h3 style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">Listing Cards</h3>
+            <div class="component-grid">
+                <div class="demo-card">
+                    <div class="card-image">🏨</div>
+                    <div class="card-content">
+                        <div class="card-title">Luxury Villa in Lekki</div>
+                        <div class="card-description">5 bedrooms • Pool • Ocean view</div>
+                        <div class="card-price">$500/night</div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <div class="card-image">🎉</div>
+                    <div class="card-content">
+                        <div class="card-title">Detty Rave 2025</div>
+                        <div class="card-description">Dec 28 • 10PM-6AM • Victoria Island</div>
+                        <div class="card-price">$50/ticket</div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <div class="card-image">✨</div>
+                    <div class="card-content">
+                        <div class="card-title">Lagos Food Tour</div>
+                        <div class="card-description">4 hours • 8 stops • Local guide</div>
+                        <div class="card-price">$75/person</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Demo -->
+        <div class="content-section">
+            <h2 class="section-title">Mixed Cart Example</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 24px;">
+                When users add items from multiple verticals, each item is color-coded with its vertical badge.
+            </p>
+
+            <div class="cart-items">
+                <div class="cart-item stays">
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">Luxury Villa in Lekki</div>
+                        <div style="font-size: 14px; opacity: 0.7;">Dec 20-27, 2025 • 7 nights</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="cart-badge stays">Stays</div>
+                        <div style="font-size: 20px; font-weight: 800; margin-top: 8px; color: var(--detty-gold);">$3,500</div>
+                    </div>
+                </div>
+
+                <div class="cart-item events">
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">Detty Rave 2025 - VIP Tickets</div>
+                        <div style="font-size: 14px; opacity: 0.7;">Dec 28, 2025 • 2 tickets</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="cart-badge events">Events</div>
+                        <div style="font-size: 20px; font-weight: 800; margin-top: 8px; color: var(--afrobeat-red);">$150</div>
+                    </div>
+                </div>
+
+                <div class="cart-item cars">
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">Mercedes-Benz E-Class Rental</div>
+                        <div style="font-size: 14px; opacity: 0.7;">Dec 20-27, 2025 • 7 days</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="cart-badge cars">Cars</div>
+                        <div style="font-size: 20px; font-weight: 800; margin-top: 8px; color: var(--coastal-emerald);">$700</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 24px; font-weight: 800;">Total</div>
+                <div style="font-size: 32px; font-weight: 900; color: var(--primary);">$4,350</div>
+            </div>
+        </div>
+
+        <!-- Dynamic Checkout Simulator -->
+        <div class="content-section">
+            <h2 class="section-title">Dynamic Checkout System</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 24px;">
+                Each checkout session adapts to the primary item's color theme. Click each preview to see how checkout changes:
+            </p>
+
+            <div class="checkout-simulator">
+                <div class="checkout-preview gold" onclick="alert('Checkout Theme: DETTY GOLD\n\nUser is booking a villa. The entire checkout flow uses gold colors:\n• Progress bar: Gold\n• CTA buttons: Gold\n• Success animation: Gold celebration\n• Confirmation email: Gold header')">
+                    <div class="checkout-title" style="color: var(--detty-gold);">🏨 Stays Checkout</div>
+                    <div class="checkout-progress">
+                        <div class="checkout-progress-bar"></div>
+                    </div>
+                    <div style="font-size: 14px; opacity: 0.7; margin-bottom: 12px;">Booking: Luxury Villa</div>
+                    <button class="demo-button" style="width: 100%; background: var(--detty-gold);">Complete Booking</button>
+                </div>
+
+                <div class="checkout-preview red" onclick="alert('Checkout Theme: AFROBEAT RED\n\nUser is booking event tickets. The entire checkout flow uses red colors:\n• Progress bar: Red\n• CTA buttons: Red\n• Success animation: Red confetti\n• Confirmation email: Red header')">
+                    <div class="checkout-title" style="color: var(--afrobeat-red);">🎉 Events Checkout</div>
+                    <div class="checkout-progress">
+                        <div class="checkout-progress-bar"></div>
+                    </div>
+                    <div style="font-size: 14px; opacity: 0.7; margin-bottom: 12px;">Booking: Detty Rave VIP</div>
+                    <button class="demo-button" style="width: 100%; background: var(--afrobeat-red); color: white;">Complete Booking</button>
+                </div>
+
+                <div class="checkout-preview green" onclick="alert('Checkout Theme: COASTAL EMERALD\n\nUser is booking a car rental. The entire checkout flow uses green colors:\n• Progress bar: Green\n• CTA buttons: Green\n• Success animation: Green checkmark\n• Confirmation email: Green header')">
+                    <div class="checkout-title" style="color: var(--coastal-emerald);">🚗 Cars Checkout</div>
+                    <div class="checkout-progress">
+                        <div class="checkout-progress-bar"></div>
+                    </div>
+                    <div style="font-size: 14px; opacity: 0.7; margin-bottom: 12px;">Booking: Mercedes E-Class</div>
+                    <button class="demo-button" style="width: 100%; background: var(--coastal-emerald); color: white;">Complete Booking</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendor Dashboard Preview -->
+        <div class="content-section">
+            <h2 class="section-title">Vendor Dashboard Theming</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 24px;">
+                Vendors see their dashboard themed with their vertical's colors, creating identity and pride.
+            </p>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 24px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <div style="font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px;">Current Vertical</div>
+                        <div style="font-size: 24px; font-weight: 800; color: var(--primary);" id="vendor-vertical">Stays</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 12px; opacity: 0.7;">Total Earnings</div>
+                        <div style="font-size: 32px; font-weight: 900; color: var(--primary);">$12,450</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 8px;">
+                        <div style="font-size: 12px; opacity: 0.7;">Active Listings</div>
+                        <div style="font-size: 28px; font-weight: 800; color: var(--primary);">8</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 8px;">
+                        <div style="font-size: 12px; opacity: 0.7;">Bookings</div>
+                        <div style="font-size: 28px; font-weight: 800; color: var(--primary);">42</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 8px;">
+                        <div style="font-size: 12px; opacity: 0.7;">Rating</div>
+                        <div style="font-size: 28px; font-weight: 800; color: var(--primary);">4.9</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Vertical theme configurations - West Africa United
+        const verticalThemes = {
+            stays: {
+                name: 'Stays',
+                primary: '#FFB700', // Detty Gold
+                secondary: '#1A1A1A', // Unity Black
+                accent: '#FB8500', // Festival Orange
+                emoji: '🏨'
+            },
+            events: {
+                name: 'Events',
+                primary: '#E63946', // Afrobeat Red
+                secondary: '#FFD60A', // Danfo Yellow
+                accent: '#7209B7', // Highlife Purple
+                emoji: '🎉'
+            },
+            experiences: {
+                name: 'Experiences',
+                primary: '#7209B7', // Highlife Purple
+                secondary: '#FFB700', // Detty Gold
+                accent: '#2A9D8F', // Coastal Emerald
+                emoji: '✨'
+            },
+            cars: {
+                name: 'Cars & Transfers',
+                primary: '#2A9D8F', // Coastal Emerald
+                secondary: '#264653', // Midnight Indigo
+                accent: '#003566', // Atlantic Blue
+                emoji: '🚗'
+            },
+            marketplace: {
+                name: 'Marketplace',
+                primary: '#FB8500', // Festival Orange
+                secondary: '#FFD60A', // Danfo Yellow
+                accent: '#E63946', // Afrobeat Red
+                emoji: '🛍️'
+            },
+            community: {
+                name: 'Community',
+                primary: '#FB8500', // Festival Orange
+                secondary: '#7209B7', // Highlife Purple
+                accent: '#FFB700', // Detty Gold
+                emoji: '👥'
+            }
+        };
+
+        let currentVertical = 'stays';
+
+        function switchVertical(vertical) {
+            currentVertical = vertical;
+            const theme = verticalThemes[vertical];
+
+            // Update CSS variables with smooth transition
+            document.documentElement.style.setProperty('--primary', theme.primary);
+            document.documentElement.style.setProperty('--secondary', theme.secondary);
+            document.documentElement.style.setProperty('--accent', theme.accent);
+
+            // Update active state on navigation buttons
+            document.querySelectorAll('.vertical-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.vertical-btn').classList.add('active');
+
+            // Update vendor dashboard vertical name
+            document.getElementById('vendor-vertical').textContent = theme.name;
+
+            // Add a subtle pulse animation to show the change
+            document.querySelector('.header').style.animation = 'pulse 0.6s ease';
+            setTimeout(() => {
+                document.querySelector('.header').style.animation = '';
+            }, 600);
+        }
+
+        // Add pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize with stays theme
+        switchVertical('stays');
+    </script>
+</body>
+</html>
+

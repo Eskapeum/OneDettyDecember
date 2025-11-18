@@ -1,0 +1,105 @@
+/* ========================================
+   About Section Theme - Clean & Minimal
+   Matches Hero Section Typography
+   ======================================== */
+
+:root {
+  /* Background */
+  --about-bg: #FFB700; /* Detty Gold */
+  --about-bg-overlay: rgba(0, 0, 0, 0.03); /* Subtle overlay for depth */
+  
+  /* Typography - Match Hero Section */
+  --about-text-primary: #1A1A1A; /* Unity Black for main text */
+  --about-text-secondary: rgba(26, 26, 26, 0.8); /* 80% opacity for descriptions */
+  --about-text-accent: #FFFFFF; /* White for contrast on images */
+  
+  /* Typography Scale - Fluid & Responsive */
+  --about-heading-main: clamp(2.5rem, 6vw, 4rem); /* ONE Platform. EVERYTHING */
+  --about-heading-sub: clamp(1.5rem, 3vw, 2rem); /* About */
+  --about-body: clamp(1rem, 1.5vw, 1.125rem); /* Description paragraphs */
+  --about-tab-label: clamp(0.75rem, 1vw, 0.875rem); /* Tab numbers */
+  --about-category-title: clamp(1.5rem, 2.5vw, 2rem); /* Category titles */
+  
+  /* Font Settings - Match Hero */
+  --about-font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --about-letter-spacing-tight: -0.03em; /* Architectural style */
+  --about-letter-spacing-normal: -0.01em;
+  --about-line-height-tight: 1.1;
+  --about-line-height-normal: 1.5;
+  --about-line-height-relaxed: 1.7;
+  
+  /* Spacing - Clean & Minimal */
+  --about-section-padding-y: clamp(3rem, 8vw, 6rem);
+  --about-section-padding-x: clamp(1.5rem, 4vw, 3rem);
+  --about-content-gap: clamp(2rem, 4vw, 3rem);
+  --about-tab-gap: clamp(0.5rem, 1vw, 0.75rem);
+  
+  /* Card Styling - Minimal Glassmorphism */
+  --about-card-bg: rgba(255, 255, 255, 0.95);
+  --about-card-border: rgba(26, 26, 26, 0.1);
+  --about-card-radius: 1rem; /* 16px */
+  --about-card-padding: clamp(1.5rem, 3vw, 2.5rem);
+  
+  /* Tab Pills - Clean Design */
+  --about-tab-bg: rgba(255, 255, 255, 0.3);
+  --about-tab-bg-active: rgba(26, 26, 26, 0.9);
+  --about-tab-text: rgba(26, 26, 26, 0.7);
+  --about-tab-text-active: #FFFFFF;
+  --about-tab-border: rgba(26, 26, 26, 0.15);
+  --about-tab-border-active: rgba(26, 26, 26, 0.9);
+  --about-tab-radius: 0.5rem; /* 8px */
+  --about-tab-padding: clamp(0.5rem, 1vw, 0.75rem) clamp(1rem, 2vw, 1.5rem);
+  
+  /* Image Overlay - Minimal */
+  --about-image-overlay: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+  --about-image-brightness: 0.85;
+  
+  /* Shadows - Subtle Depth */
+  --about-shadow-sm: 0 2px 8px rgba(26, 26, 26, 0.08);
+  --about-shadow-md: 0 4px 16px rgba(26, 26, 26, 0.12);
+  --about-shadow-card: 0 8px 32px rgba(26, 26, 26, 0.15);
+  
+  /* Transitions - Smooth */
+  --about-transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --about-transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Text Shadows - Match Hero */
+  --about-text-shadow-heading: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --about-text-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  :root {
+    --about-section-padding-y: 2rem;
+    --about-section-padding-x: 1rem;
+    --about-content-gap: 1.5rem;
+    --about-card-padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --about-section-padding-y: 8rem;
+    --about-content-gap: 4rem;
+  }
+}
+
+/* Accessibility - High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --about-card-border: rgba(26, 26, 26, 0.3);
+    --about-tab-border: rgba(26, 26, 26, 0.3);
+    --about-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --about-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --about-transition-fast: 0ms;
+    --about-transition-base: 0ms;
+  }
+}
+

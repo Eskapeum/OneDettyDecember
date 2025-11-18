@@ -1,0 +1,12 @@
+installation:
+  version: 6.0.0-alpha.10
+  installDate: '2025-11-17T07:13:19.289Z'
+  lastUpdated: '2025-11-17T07:13:19.289Z'
+modules:
+  - core
+  - bmm
+  - cis
+ides:
+  - claude-code
+  - codex
+  - auggie
