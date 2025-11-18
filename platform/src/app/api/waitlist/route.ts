@@ -10,7 +10,7 @@ const waitlistSchema = z.object({
   firstName: z.string().min(1, 'First name is required').max(50, 'First name too long').optional(),
   lastName: z.string().min(1, 'Last name is required').max(50, 'Last name too long').optional(),
   source: z.string().max(100, 'Source too long').optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 })
 
 export async function POST(request: NextRequest) {
@@ -21,9 +21,9 @@ export async function POST(request: NextRequest) {
     const validationResult = waitlistSchema.safeParse(body)
     if (!validationResult.success) {
       return NextResponse.json(
-        { 
-          error: 'Validation failed', 
-          details: validationResult.error.errors 
+        {
+          error: 'Validation failed',
+          details: validationResult.error.issues
         },
         { status: 400 }
       )
