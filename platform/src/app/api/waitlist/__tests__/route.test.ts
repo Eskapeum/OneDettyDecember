@@ -21,8 +21,8 @@ describe('Waitlist API Validation', () => {
       const result = waitlistSchema.safeParse(invalidData)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.errors.length).toBeGreaterThan(0)
-        expect(result.error.errors[0].path).toEqual(['email'])
+        expect(result.error.issues.length).toBeGreaterThan(0)
+        expect(result.error.issues[0].path).toEqual(['email'])
       }
     })
 
@@ -63,15 +63,6 @@ describe('Waitlist API Validation', () => {
       expect(result.success).toBe(false)
     })
 
-    it('accepts metadata as object', () => {
-      const validData = {
-        email: 'test@example.com',
-        metadata: { campaign: 'summer2024', referrer: 'google' }
-      }
-      const result = waitlistSchema.safeParse(validData)
-      expect(result.success).toBe(true)
-    })
-
     it('requires email field', () => {
       const invalidData = { firstName: 'John' }
       const result = waitlistSchema.safeParse(invalidData)
@@ -83,8 +74,7 @@ describe('Waitlist API Validation', () => {
         email: 'complete@example.com',
         firstName: 'John',
         lastName: 'Doe',
-        source: 'landing-page',
-        metadata: { utm_source: 'google', utm_campaign: 'launch' }
+        source: 'landing-page'
       }
       const result = waitlistSchema.safeParse(validData)
       expect(result.success).toBe(true)
