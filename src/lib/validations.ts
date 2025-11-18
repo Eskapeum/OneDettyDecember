@@ -121,11 +121,16 @@ export const packageListQuerySchema = z.object({
       'date_asc',
       'date_desc',
       'rating',
+      'popularity',
       'created_asc',
       'created_desc',
     ])
     .optional()
     .default('created_desc'),
+
+  // Additional filters (Sprint 2)
+  availableOnly: z.string().regex(/^(true|false)$/).optional().default('false'),
+  verifiedOnly: z.string().regex(/^(true|false)$/).optional().default('false'),
 })
 
 export type PackageListQuery = z.infer<typeof packageListQuerySchema>
@@ -147,6 +152,50 @@ export const packageCreateSchema = z.object({
 })
 
 export type PackageCreateInput = z.infer<typeof packageCreateSchema>
+
+// ============================================
+// SEARCH SCHEMAS (Sprint 2)
+// ============================================
+
+export const searchQuerySchema = z.object({
+  // Search query
+  q: z.string().min(1, 'Search query is required').max(200),
+
+  // Filters
+  type: z.enum(['EVENT', 'STAY', 'EXPERIENCE', 'CAR_RENTAL', 'MARKETPLACE_PRODUCT']).optional(),
+  city: z.enum(['Lagos', 'Accra']).optional(),
+  minPrice: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format').optional(),
+  maxPrice: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format').optional(),
+  startDate: z.string().datetime().optional(),
+  endDate: z.string().datetime().optional(),
+
+  // Pagination
+  page: z.string().regex(/^\d+$/).optional().default('1'),
+  limit: z.string().regex(/^\d+$/).optional().default('20'),
+})
+
+export type SearchQuery = z.infer<typeof searchQuerySchema>
+
+export const autocompleteQuerySchema = z.object({
+  q: z.string().min(1, 'Query is required').max(100),
+  limit: z.string().regex(/^\d+$/).optional().default('10'),
+})
+
+export type AutocompleteQuery = z.infer<typeof autocompleteQuerySchema>
+
+export const categoryListQuerySchema = z.object({
+  includeCount: z.string().regex(/^(true|false)$/).optional().default('false'),
+})
+
+export type CategoryListQuery = z.infer<typeof categoryListQuerySchema>
+
+export const featuredPackagesQuerySchema = z.object({
+  type: z.enum(['EVENT', 'STAY', 'EXPERIENCE', 'CAR_RENTAL', 'MARKETPLACE_PRODUCT']).optional(),
+  city: z.enum(['Lagos', 'Accra']).optional(),
+  limit: z.string().regex(/^\d+$/).optional().default('10'),
+})
+
+export type FeaturedPackagesQuery = z.infer<typeof featuredPackagesQuerySchema>
 
 // ============================================
 // COMMON VALIDATION HELPERS

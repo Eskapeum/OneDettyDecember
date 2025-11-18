@@ -2,6 +2,7 @@
  * Packages API Routes
  * GET /api/packages - List packages with filters, pagination, and sorting
  * Sprint 0 - Day 1
+ * Sprint 2 - Enhanced filtering and category support
  */
 
 import { NextRequest } from 'next/server'
@@ -78,8 +79,29 @@ export async function GET(request: NextRequest) {
       ]
     }
 
+    // Filter for available packages only (Sprint 2)
+    if (validated.availableOnly === 'true') {
+      where.AND = [
+        ...(Array.isArray(where.AND) ? where.AND : where.AND ? [where.AND] : []),
+        {
+          OR: [
+            { availableSlots: { gt: 0 } },
+            { startDate: { gte: new Date() } },
+          ],
+        },
+      ]
+    }
+
+    // Filter for verified vendors only (Sprint 2)
+    if (validated.verifiedOnly === 'true') {
+      where.vendor = {
+        verifiedAt: { not: null },
+      }
+    }
+
     // Build orderBy clause for sorting
     let orderBy: Prisma.PackageOrderByWithRelationInput = {}
+    let needsManualSort = false
 
     switch (validated.sort) {
       case 'price_asc':
@@ -96,6 +118,12 @@ export async function GET(request: NextRequest) {
         break
       case 'created_asc':
         orderBy = { createdAt: 'asc' }
+        break
+      case 'rating':
+      case 'popularity':
+        // These require manual sorting after fetching
+        needsManualSort = true
+        orderBy = { createdAt: 'desc' }
         break
       case 'created_desc':
       default:
@@ -141,16 +169,28 @@ export async function GET(request: NextRequest) {
               rating: true,
             },
           },
+          bookings: needsManualSort
+            ? {
+                select: {
+                  status: true,
+                },
+              }
+            : undefined,
         },
       }),
       prisma.package.count({ where }),
     ])
 
     // Calculate average ratings and review counts
-    const packagesWithStats = packages.map((pkg) => {
+    let packagesWithStats = packages.map((pkg) => {
       const ratings = pkg.reviews.map((r) => r.rating)
       const avgRating = ratings.length > 0 ? ratings.reduce((a, b) => a + b, 0) / ratings.length : null
       const reviewCount = ratings.length
+
+      // Calculate booking count for popularity sorting
+      const bookingCount = pkg.bookings
+        ? pkg.bookings.filter((b) => b.status === 'COMPLETED' || b.status === 'CONFIRMED').length
+        : 0
 
       return {
         id: pkg.id,
@@ -172,8 +212,33 @@ export async function GET(request: NextRequest) {
         vendor: pkg.vendor,
         avgRating: avgRating ? parseFloat(avgRating.toFixed(1)) : null,
         reviewCount,
+        bookingCount: needsManualSort ? bookingCount : undefined,
       }
     })
+
+    // Apply manual sorting if needed (Sprint 2)
+    if (needsManualSort) {
+      if (validated.sort === 'rating') {
+        packagesWithStats.sort((a, b) => {
+          // Sort by rating (descending), then by review count
+          if (b.avgRating !== a.avgRating) {
+            return (b.avgRating || 0) - (a.avgRating || 0)
+          }
+          return b.reviewCount - a.reviewCount
+        })
+      } else if (validated.sort === 'popularity') {
+        packagesWithStats.sort((a, b) => {
+          // Sort by booking count, then rating
+          if (b.bookingCount !== a.bookingCount) {
+            return (b.bookingCount || 0) - (a.bookingCount || 0)
+          }
+          return (b.avgRating || 0) - (a.avgRating || 0)
+        })
+      }
+
+      // Remove bookingCount from response
+      packagesWithStats = packagesWithStats.map(({ bookingCount, ...pkg }) => pkg)
+    }
 
     // Return paginated response
     return successResponse(paginatedResponse(packagesWithStats, page, limit, total))
