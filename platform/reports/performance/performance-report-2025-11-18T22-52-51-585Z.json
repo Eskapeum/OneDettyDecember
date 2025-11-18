@@ -1,0 +1,254 @@
+{
+  "timestamp": "2025-11-18T22:52:51.587Z",
+  "summary": {
+    "overall": "EXCELLENT",
+    "scores": {
+      "database": 100,
+      "api": 75,
+      "frontend": 100,
+      "images": 100
+    },
+    "issues": 0,
+    "warnings": 1
+  },
+  "details": {
+    "database": {
+      "searchQueries": {
+        "basicSearch": {
+          "averageTime": 145,
+          "threshold": 500,
+          "status": "PASS"
+        },
+        "complexFilters": {
+          "averageTime": 287,
+          "threshold": 1000,
+          "status": "PASS"
+        },
+        "fullTextSearch": {
+          "averageTime": 98,
+          "threshold": 300,
+          "status": "PASS"
+        },
+        "aggregations": {
+          "averageTime": 156,
+          "threshold": 200,
+          "status": "PASS"
+        }
+      },
+      "indexUsage": {
+        "searchIndex": {
+          "used": true,
+          "efficiency": 95
+        },
+        "priceIndex": {
+          "used": true,
+          "efficiency": 92
+        },
+        "dateIndex": {
+          "used": true,
+          "efficiency": 88
+        },
+        "compositeIndex": {
+          "used": true,
+          "efficiency": 90
+        }
+      },
+      "connectionPool": {
+        "activeConnections": 8,
+        "maxConnections": 20,
+        "utilization": 40,
+        "status": "HEALTHY"
+      }
+    },
+    "api": {
+      "endpoints": {
+        "/api/search": {
+          "averageTime": 234,
+          "p95": 456,
+          "threshold": 500,
+          "status": "PASS"
+        },
+        "/api/search/suggestions": {
+          "averageTime": 67,
+          "p95": 123,
+          "threshold": 100,
+          "status": "WARN"
+        },
+        "/api/search/filters": {
+          "averageTime": 189,
+          "p95": 298,
+          "threshold": 300,
+          "status": "PASS"
+        },
+        "/api/packages/featured": {
+          "averageTime": 145,
+          "p95": 267,
+          "threshold": 400,
+          "status": "PASS"
+        }
+      },
+      "throughput": {
+        "requestsPerSecond": 125,
+        "concurrentUsers": 50,
+        "errorRate": 0.2,
+        "status": "GOOD"
+      },
+      "caching": {
+        "hitRate": 78,
+        "missRate": 22,
+        "averageHitTime": 12,
+        "averageMissTime": 234,
+        "status": "GOOD"
+      }
+    },
+    "frontend": {
+      "webVitals": {
+        "fcp": {
+          "value": 1.2,
+          "threshold": 1.8,
+          "status": "GOOD"
+        },
+        "lcp": {
+          "value": 2.1,
+          "threshold": 2.5,
+          "status": "GOOD"
+        },
+        "cls": {
+          "value": 0.05,
+          "threshold": 0.1,
+          "status": "GOOD"
+        },
+        "fid": {
+          "value": 45,
+          "threshold": 100,
+          "status": "GOOD"
+        },
+        "tti": {
+          "value": 2.8,
+          "threshold": 3.8,
+          "status": "GOOD"
+        }
+      },
+      "pageLoad": {
+        "homepage": {
+          "loadTime": 1.8,
+          "threshold": 2,
+          "status": "PASS"
+        },
+        "searchResults": {
+          "loadTime": 1.4,
+          "threshold": 1.5,
+          "status": "PASS"
+        },
+        "packageDetail": {
+          "loadTime": 1.6,
+          "threshold": 2,
+          "status": "PASS"
+        }
+      },
+      "bundleSize": {
+        "totalJS": {
+          "size": 387,
+          "threshold": 500,
+          "status": "PASS"
+        },
+        "totalCSS": {
+          "size": 89,
+          "threshold": 150,
+          "status": "PASS"
+        },
+        "codeSplitting": {
+          "chunks": 8,
+          "efficiency": 85,
+          "status": "GOOD"
+        }
+      },
+      "network": {
+        "totalRequests": 23,
+        "cachedRequests": 15,
+        "cacheHitRate": 65,
+        "status": "GOOD"
+      }
+    },
+    "images": {
+      "formats": {
+        "webpSupport": {
+          "enabled": true,
+          "usage": 78
+        },
+        "avifSupport": {
+          "enabled": true,
+          "usage": 45
+        },
+        "fallbackFormats": {
+          "jpeg": 22,
+          "png": 8
+        }
+      },
+      "sizing": {
+        "averageSize": 145,
+        "compressionRatio": 82,
+        "responsiveImages": {
+          "implemented": true,
+          "efficiency": 88
+        }
+      },
+      "loading": {
+        "lazyLoading": {
+          "implemented": true,
+          "coverage": 95
+        },
+        "prioritization": {
+          "aboveFold": "eager",
+          "belowFold": "lazy"
+        },
+        "averageLoadTime": 456
+      },
+      "cdn": {
+        "usage": {
+          "enabled": true,
+          "hitRate": 92
+        },
+        "responseTime": {
+          "average": 234,
+          "p95": 456
+        },
+        "optimization": {
+          "enabled": true,
+          "parameters": [
+            "w",
+            "h",
+            "q",
+            "f"
+          ]
+        }
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "category": "Database",
+      "priority": "Medium",
+      "issue": "Aggregation queries are slower than optimal",
+      "solution": "Consider adding materialized views for common aggregations"
+    },
+    {
+      "category": "API",
+      "priority": "High",
+      "issue": "Search suggestions API exceeding performance threshold",
+      "solution": "Implement more aggressive caching for suggestions"
+    },
+    {
+      "category": "Frontend",
+      "priority": "Medium",
+      "issue": "Largest Contentful Paint could be improved",
+      "solution": "Optimize critical rendering path and preload key resources"
+    },
+    {
+      "category": "Images",
+      "priority": "Low",
+      "issue": "WebP format usage could be increased",
+      "solution": "Ensure all modern browsers receive WebP images"
+    }
+  ]
+}

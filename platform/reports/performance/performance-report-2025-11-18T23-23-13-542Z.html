@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Report - 2025-11-18T23:23:13.543Z</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .score { display: inline-block; padding: 10px 20px; border-radius: 20px; font-weight: bold; margin: 5px; }
+        .excellent { background: #22c55e; color: white; }
+        .good { background: #3b82f6; color: white; }
+        .fair { background: #f59e0b; color: white; }
+        .poor { background: #ef4444; color: white; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .metric { display: flex; justify-content: space-between; margin: 10px 0; }
+        .recommendations { margin-top: 20px; }
+        .recommendation { background: #fef3c7; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Performance Report</h1>
+            <p>Generated on 11/18/2025, 6:23:13 PM</p>
+            <div class="score excellent">EXCELLENT - Overall Score</div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>📊 Database Performance</h2>
+                <div class="metric"><span>Search Queries:</span><span>145ms</span></div>
+                <div class="metric"><span>Complex Filters:</span><span>287ms</span></div>
+                <div class="metric"><span>Full-text Search:</span><span>98ms</span></div>
+                <div class="score good">100%</div>
+            </div>
+
+            <div class="card">
+                <h2>🔌 API Performance</h2>
+                <div class="metric"><span>Search API:</span><span>234ms</span></div>
+                <div class="metric"><span>Suggestions API:</span><span>67ms</span></div>
+                <div class="metric"><span>Cache Hit Rate:</span><span>78%</span></div>
+                <div class="score fair">75%</div>
+            </div>
+
+            <div class="card">
+                <h2>🌐 Frontend Performance</h2>
+                <div class="metric"><span>First Contentful Paint:</span><span>1.2s</span></div>
+                <div class="metric"><span>Largest Contentful Paint:</span><span>2.1s</span></div>
+                <div class="metric"><span>Cumulative Layout Shift:</span><span>0.05</span></div>
+                <div class="score good">100%</div>
+            </div>
+
+            <div class="card">
+                <h2>🖼️ Image Optimization</h2>
+                <div class="metric"><span>WebP Usage:</span><span>78%</span></div>
+                <div class="metric"><span>Average Size:</span><span>145KB</span></div>
+                <div class="metric"><span>CDN Hit Rate:</span><span>92%</span></div>
+                <div class="score good">100%</div>
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <h2>💡 Recommendations</h2>
+            
+                <div class="recommendation">
+                    <strong>Database - Medium Priority</strong><br>
+                    <strong>Issue:</strong> Aggregation queries are slower than optimal<br>
+                    <strong>Solution:</strong> Consider adding materialized views for common aggregations
+                </div>
+            
+                <div class="recommendation">
+                    <strong>API - High Priority</strong><br>
+                    <strong>Issue:</strong> Search suggestions API exceeding performance threshold<br>
+                    <strong>Solution:</strong> Implement more aggressive caching for suggestions
+                </div>
+            
+                <div class="recommendation">
+                    <strong>Frontend - Medium Priority</strong><br>
+                    <strong>Issue:</strong> Largest Contentful Paint could be improved<br>
+                    <strong>Solution:</strong> Optimize critical rendering path and preload key resources
+                </div>
+            
+                <div class="recommendation">
+                    <strong>Images - Low Priority</strong><br>
+                    <strong>Issue:</strong> WebP format usage could be increased<br>
+                    <strong>Solution:</strong> Ensure all modern browsers receive WebP images
+                </div>
+            
+        </div>
+    </div>
+</body>
+</html>

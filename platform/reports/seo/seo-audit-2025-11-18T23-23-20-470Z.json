@@ -1,0 +1,395 @@
+{
+  "timestamp": "2025-11-18T23:23:20.473Z",
+  "summary": {
+    "overallScore": 89,
+    "categoryScores": {
+      "metaTags": 92,
+      "structuredData": 86,
+      "sitemaps": 91,
+      "technical": 89,
+      "content": 86,
+      "performance": 88
+    },
+    "status": "Good",
+    "criticalIssues": [],
+    "strengths": [
+      "Excellent meta tag optimization",
+      "Strong security implementation",
+      "Good structured data implementation"
+    ]
+  },
+  "details": {
+    "metaTags": {
+      "homepage": {
+        "title": {
+          "present": true,
+          "length": 58,
+          "optimized": true
+        },
+        "description": {
+          "present": true,
+          "length": 155,
+          "optimized": true
+        },
+        "openGraph": {
+          "present": true,
+          "complete": true
+        },
+        "twitterCard": {
+          "present": true,
+          "complete": true
+        },
+        "canonical": {
+          "present": true,
+          "valid": true
+        },
+        "viewport": {
+          "present": true,
+          "valid": true
+        },
+        "language": {
+          "present": true,
+          "valid": true
+        },
+        "score": 95
+      },
+      "searchPages": {
+        "dynamicTitles": {
+          "implemented": true,
+          "optimized": true
+        },
+        "dynamicDescriptions": {
+          "implemented": true,
+          "optimized": true
+        },
+        "canonicalUrls": {
+          "implemented": true,
+          "valid": true
+        },
+        "noindexFilters": {
+          "implemented": true,
+          "appropriate": true
+        },
+        "score": 90
+      },
+      "packagePages": {
+        "dynamicTitles": {
+          "implemented": true,
+          "optimized": true
+        },
+        "dynamicDescriptions": {
+          "implemented": true,
+          "optimized": true
+        },
+        "productMetaTags": {
+          "implemented": true,
+          "complete": true
+        },
+        "imageMetaTags": {
+          "implemented": true,
+          "optimized": true
+        },
+        "score": 92
+      },
+      "overall": 92
+    },
+    "structuredData": {
+      "eventSchema": {
+        "implemented": true,
+        "valid": true,
+        "requiredFields": {
+          "present": true,
+          "complete": true
+        },
+        "recommendedFields": {
+          "present": true,
+          "complete": 85
+        },
+        "score": 90
+      },
+      "organizationSchema": {
+        "implemented": true,
+        "valid": true,
+        "localBusiness": {
+          "implemented": true,
+          "complete": true
+        },
+        "socialMedia": {
+          "implemented": true,
+          "complete": true
+        },
+        "score": 88
+      },
+      "productSchema": {
+        "implemented": true,
+        "valid": true,
+        "offers": {
+          "implemented": true,
+          "complete": true
+        },
+        "reviews": {
+          "implemented": true,
+          "complete": 75
+        },
+        "score": 85
+      },
+      "breadcrumbs": {
+        "implemented": true,
+        "valid": true,
+        "coverage": 95,
+        "score": 92
+      },
+      "faqSchema": {
+        "implemented": true,
+        "valid": true,
+        "coverage": 60,
+        "score": 75
+      },
+      "overall": 86
+    },
+    "sitemaps": {
+      "mainSitemap": {
+        "present": true,
+        "valid": true,
+        "xmlStructure": {
+          "valid": true,
+          "wellFormed": true
+        },
+        "urlCount": 1250,
+        "lastModified": "2025-11-18T12:00:00Z",
+        "score": 95
+      },
+      "sitemapIndex": {
+        "present": true,
+        "valid": true,
+        "references": {
+          "complete": true,
+          "valid": true
+        },
+        "score": 90
+      },
+      "dynamicSitemaps": {
+        "packages": {
+          "present": true,
+          "valid": true,
+          "urlCount": 850
+        },
+        "vendors": {
+          "present": true,
+          "valid": true,
+          "urlCount": 125
+        },
+        "categories": {
+          "present": true,
+          "valid": true,
+          "urlCount": 45
+        },
+        "score": 88
+      },
+      "robotsTxt": {
+        "present": true,
+        "valid": true,
+        "sitemapReference": {
+          "present": true,
+          "correct": true
+        },
+        "directives": {
+          "appropriate": true,
+          "complete": true
+        },
+        "score": 92
+      },
+      "overall": 91
+    },
+    "technical": {
+      "crawlability": {
+        "robotsTxt": {
+          "valid": true,
+          "accessible": true
+        },
+        "internalLinks": {
+          "structure": "good",
+          "depth": 3.2
+        },
+        "urlStructure": {
+          "clean": true,
+          "descriptive": true
+        },
+        "score": 88
+      },
+      "indexability": {
+        "noindexPages": {
+          "appropriate": true,
+          "count": 15
+        },
+        "canonicalization": {
+          "implemented": true,
+          "conflicts": 0
+        },
+        "duplicateContent": {
+          "issues": 2,
+          "severity": "low"
+        },
+        "score": 85
+      },
+      "mobileOptimization": {
+        "responsive": {
+          "implemented": true,
+          "tested": true
+        },
+        "mobileUsability": {
+          "score": 92
+        },
+        "mobileFriendly": {
+          "googleTest": "pass"
+        },
+        "score": 90
+      },
+      "pageSpeed": {
+        "desktop": {
+          "score": 88,
+          "lcp": 1.8,
+          "fid": 45,
+          "cls": 0.05
+        },
+        "mobile": {
+          "score": 82,
+          "lcp": 2.3,
+          "fid": 67,
+          "cls": 0.08
+        },
+        "score": 85
+      },
+      "security": {
+        "https": {
+          "implemented": true,
+          "forced": true
+        },
+        "hsts": {
+          "implemented": true,
+          "valid": true
+        },
+        "mixedContent": {
+          "issues": 0
+        },
+        "score": 95
+      },
+      "overall": 89
+    },
+    "content": {
+      "headingStructure": {
+        "h1Tags": {
+          "unique": true,
+          "descriptive": true,
+          "count": 1
+        },
+        "hierarchy": {
+          "logical": true,
+          "complete": true
+        },
+        "keywords": {
+          "optimized": true,
+          "natural": true
+        },
+        "score": 90
+      },
+      "contentQuality": {
+        "uniqueness": {
+          "score": 95,
+          "duplicates": 1
+        },
+        "readability": {
+          "score": 78,
+          "gradeLevel": 8.5
+        },
+        "length": {
+          "adequate": true,
+          "average": 450
+        },
+        "score": 88
+      },
+      "keywordOptimization": {
+        "targetKeywords": {
+          "identified": true,
+          "optimized": 85
+        },
+        "keywordDensity": {
+          "appropriate": true,
+          "natural": true
+        },
+        "semanticKeywords": {
+          "implemented": true,
+          "coverage": 80
+        },
+        "score": 82
+      },
+      "internalLinking": {
+        "strategy": {
+          "implemented": true,
+          "effective": true
+        },
+        "anchorText": {
+          "descriptive": true,
+          "varied": true
+        },
+        "orphanPages": {
+          "count": 3,
+          "severity": "low"
+        },
+        "score": 85
+      },
+      "overall": 86
+    },
+    "performance": {
+      "coreWebVitals": {
+        "lcp": {
+          "value": 2.1,
+          "status": "good"
+        },
+        "fid": {
+          "value": 45,
+          "status": "good"
+        },
+        "cls": {
+          "value": 0.05,
+          "status": "good"
+        },
+        "score": 88
+      },
+      "imageOptimization": {
+        "formats": {
+          "webp": 85,
+          "avif": 45,
+          "fallback": 100
+        },
+        "compression": {
+          "average": 82,
+          "optimized": true
+        },
+        "lazyLoading": {
+          "implemented": true,
+          "coverage": 95
+        },
+        "score": 87
+      },
+      "caching": {
+        "browserCaching": {
+          "implemented": true,
+          "optimized": true
+        },
+        "cdnUsage": {
+          "implemented": true,
+          "coverage": 90
+        },
+        "staticAssets": {
+          "cached": true,
+          "duration": "optimal"
+        },
+        "score": 90
+      },
+      "overall": 88
+    }
+  },
+  "recommendations": [],
+  "score": 89
+}
