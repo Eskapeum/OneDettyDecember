@@ -43,16 +43,16 @@ ON packages(price) WHERE status = 'PUBLISHED';
 CREATE INDEX IF NOT EXISTS idx_packages_type_city 
 ON packages(type, city) WHERE status = 'PUBLISHED';
 
-CREATE INDEX IF NOT EXISTS idx_packages_dates 
-ON packages(start_date, end_date) WHERE status = 'PUBLISHED';
+CREATE INDEX IF NOT EXISTS idx_packages_dates
+ON packages("startDate", "endDate") WHERE status = 'PUBLISHED';
 
 -- Create composite index for common search + filter queries
-CREATE INDEX IF NOT EXISTS idx_packages_search_composite 
+CREATE INDEX IF NOT EXISTS idx_packages_search_composite
 ON packages(type, city, price) WHERE status = 'PUBLISHED';
 
 -- Add index for sorting by popularity (we'll use review count as proxy)
-CREATE INDEX IF NOT EXISTS idx_packages_created_at 
-ON packages(created_at DESC) WHERE status = 'PUBLISHED';
+CREATE INDEX IF NOT EXISTS idx_packages_created_at
+ON packages("createdAt" DESC) WHERE status = 'PUBLISHED';
 
 -- Comment on the search_vector column
 COMMENT ON COLUMN packages.search_vector IS 'Full-text search vector with weighted fields: title (A), description (B), location/city (C)';

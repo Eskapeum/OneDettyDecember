@@ -66,6 +66,7 @@ model packages {
   startDate      DateTime?        @db.Timestamptz(6)
   endDate        DateTime?        @db.Timestamptz(6)
   metadata       Json?
+  search_vector  Unsupported("tsvector")?
   createdAt      DateTime?        @default(now()) @db.Timestamptz(6)
   updatedAt      DateTime?        @default(now()) @db.Timestamptz(6)
   bookings       bookings[]
@@ -78,6 +79,7 @@ model packages {
   @@index([status])
   @@index([type])
   @@index([type, status, city])
+  @@index([search_vector], map: "idx_packages_search_vector", type: Gin)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
