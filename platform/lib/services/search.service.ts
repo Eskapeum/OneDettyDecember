@@ -192,6 +192,218 @@ export class SearchService {
     }
   }
 
-  // ... (continued in next file)
+  /**
+   * Execute search query with relevance ranking
+   */
+  private static async executeSearch(
+    where: Prisma.packagesWhereInput,
+    orderBy: Prisma.packagesOrderByWithRelationInput[],
+    skip: number,
+    take: number,
+    query?: string
+  ): Promise<SearchResult[]> {
+    const packages = await prisma.packages.findMany({
+      where,
+      orderBy,
+      skip,
+      take,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        location: true,
+        city: true,
+        price: true,
+        currency: true,
+        type: true,
+        images: true,
+        capacity: true,
+        availableSlots: true,
+        startDate: true,
+        endDate: true,
+        createdAt: true,
+        _count: {
+          select: {
+            reviews: true,
+            bookings: true,
+          },
+        },
+        reviews: {
+          select: {
+            rating: true,
+          },
+        },
+      },
+    });
+
+    // Calculate relevance scores and enrich results
+    return packages.map((pkg) => {
+      const reviewCount = pkg._count.reviews;
+      const bookingCount = pkg._count.bookings;
+      const avgRating = pkg.reviews.length > 0
+        ? pkg.reviews.reduce((sum, r) => sum + r.rating, 0) / pkg.reviews.length
+        : 0;
+
+      // Calculate relevance score (if query provided)
+      let relevanceScore = 1.0;
+      if (query) {
+        relevanceScore = this.calculateRelevanceScore(pkg, query, avgRating, reviewCount, bookingCount);
+      }
+
+      return {
+        id: pkg.id,
+        title: pkg.title,
+        description: pkg.description,
+        location: pkg.location,
+        city: pkg.city,
+        price: Number(pkg.price),
+        currency: pkg.currency || 'USD',
+        type: pkg.type,
+        images: pkg.images,
+        capacity: pkg.capacity,
+        availableSlots: pkg.availableSlots,
+        startDate: pkg.startDate,
+        endDate: pkg.endDate,
+        relevanceScore,
+        reviewCount,
+        rating: avgRating,
+      };
+    });
+  }
+
+  /**
+   * Calculate relevance score based on multiple factors
+   * - Text Match (40%): Title, description, location match
+   * - Popularity (30%): Rating, reviews, bookings
+   * - Recency (20%): Recently added/updated
+   * - Availability (10%): Available slots
+   */
+  private static calculateRelevanceScore(
+    pkg: any,
+    query: string,
+    avgRating: number,
+    reviewCount: number,
+    bookingCount: number
+  ): number {
+    const q = query.toLowerCase();
+
+    // Text Match Score (40%)
+    let textScore = 0;
+    if (pkg.title.toLowerCase().includes(q)) textScore += 0.3; // Title match: 3x weight
+    if (pkg.description.toLowerCase().includes(q)) textScore += 0.1; // Description: 1x
+    if (pkg.location.toLowerCase().includes(q)) textScore += 0.2; // Location: 2x
+    if (pkg.city.toLowerCase().includes(q)) textScore += 0.2; // City: 2x
+    textScore = Math.min(textScore, 0.4); // Cap at 40%
+
+    // Popularity Score (30%)
+    const ratingScore = (avgRating / 5) * 0.15; // Max 15%
+    const reviewScore = Math.min(reviewCount / 100, 1) * 0.1; // Max 10%
+    const bookingScore = Math.min(bookingCount / 50, 1) * 0.05; // Max 5%
+    const popularityScore = ratingScore + reviewScore + bookingScore;
+
+    // Recency Score (20%)
+    const daysSinceCreation = (Date.now() - new Date(pkg.createdAt).getTime()) / (1000 * 60 * 60 * 24);
+    const recencyScore = Math.max(0, 0.2 - (daysSinceCreation / 365) * 0.2); // Decay over 1 year
+
+    // Availability Score (10%)
+    const availabilityScore = pkg.availableSlots && pkg.capacity
+      ? (pkg.availableSlots / pkg.capacity) * 0.1
+      : 0.05; // Default 5% if no capacity info
+
+    return textScore + popularityScore + recencyScore + availabilityScore;
+  }
+
+  /**
+   * Count total results
+   */
+  private static async countResults(where: Prisma.packagesWhereInput): Promise<number> {
+    return prisma.packages.count({ where });
+  }
+
+  /**
+   * Get aggregations for filters
+   */
+  private static async getAggregations(where: Prisma.packagesWhereInput) {
+    const [categories, locations, priceRange] = await Promise.all([
+      // Category counts
+      prisma.packages.groupBy({
+        by: ['type'],
+        where,
+        _count: true,
+      }),
+      // Location counts
+      prisma.packages.groupBy({
+        by: ['city'],
+        where,
+        _count: true,
+      }),
+      // Price range
+      prisma.packages.aggregate({
+        where,
+        _min: { price: true },
+        _max: { price: true },
+      }),
+    ]);
+
+    return {
+      categories: categories.map((c) => ({ id: c.type, count: c._count })),
+      locations: locations.map((l) => ({ city: l.city, count: l._count })),
+      priceRange: {
+        min: Number(priceRange._min.price) || 0,
+        max: Number(priceRange._max.price) || 10000,
+      },
+    };
+  }
+
+  /**
+   * Generate cache key from filters
+   */
+  private static getCacheKey(filters: SearchFilters): string {
+    const key = `search:${JSON.stringify(filters)}`;
+    return key;
+  }
+
+  /**
+   * Get from cache
+   */
+  private static async getFromCache(key: string): Promise<SearchResponse | null> {
+    try {
+      const cached = await redis.get(key);
+      return cached ? JSON.parse(cached) : null;
+    } catch (error) {
+      console.error('Cache get error:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Set cache
+   */
+  private static async setCache(key: string, data: SearchResponse): Promise<void> {
+    try {
+      await redis.setex(key, this.CACHE_TTL, JSON.stringify(data));
+    } catch (error) {
+      console.error('Cache set error:', error);
+      // Don't throw - cache failures shouldn't break search
+    }
+  }
+
+  /**
+   * Invalidate cache for package updates
+   */
+  static async invalidateCache(packageId?: string): Promise<void> {
+    try {
+      if (packageId) {
+        // Invalidate all search caches (simple approach)
+        const keys = await redis.keys('search:*');
+        if (keys.length > 0) {
+          await redis.del(...keys);
+        }
+      }
+    } catch (error) {
+      console.error('Cache invalidation error:', error);
+    }
+  }
 }
+
 
