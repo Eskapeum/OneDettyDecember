@@ -31,19 +31,57 @@ export function middleware(request: NextRequest) {
   // Cache control for static assets
   const { pathname } = request.nextUrl
 
+  // CDN Optimization: Aggressive caching with stale-while-revalidate
   if (pathname.startsWith('/_next/static/')) {
-    // Static assets - cache for 1 year
+    // Static assets - cache for 1 year (immutable)
     response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
+  } else if (pathname.startsWith('/_next/image')) {
+    // Next.js optimized images - cache for 1 month with revalidation
+    response.headers.set(
+      'Cache-Control',
+      'public, max-age=2592000, s-maxage=2592000, stale-while-revalidate=86400'
+    )
+  } else if (pathname.startsWith('/api/packages')) {
+    // Package API - cache for 5 minutes with CDN caching
+    response.headers.set(
+      'Cache-Control',
+      'public, max-age=300, s-maxage=300, stale-while-revalidate=60'
+    )
+  } else if (pathname.startsWith('/api/search')) {
+    // Search API - cache for 2 minutes
+    response.headers.set(
+      'Cache-Control',
+      'public, max-age=120, s-maxage=120, stale-while-revalidate=30'
+    )
   } else if (pathname.startsWith('/api/')) {
-    // API routes - no cache by default
+    // Other API routes - no cache by default
     response.headers.set('Cache-Control', 'no-store, must-revalidate')
   } else if (pathname.match(/\.(jpg|jpeg|png|gif|svg|ico|webp|avif)$/)) {
-    // Images - cache for 1 week
-    response.headers.set('Cache-Control', 'public, max-age=604800, immutable')
+    // Images - cache for 1 week with CDN extension
+    response.headers.set(
+      'Cache-Control',
+      'public, max-age=604800, s-maxage=2592000, stale-while-revalidate=86400, immutable'
+    )
   } else if (pathname.match(/\.(woff|woff2|ttf|otf|eot)$/)) {
     // Fonts - cache for 1 year
     response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
+  } else if (pathname.match(/\.(css|js)$/)) {
+    // CSS/JS - cache for 1 day with revalidation
+    response.headers.set(
+      'Cache-Control',
+      'public, max-age=86400, stale-while-revalidate=3600'
+    )
+  } else if (pathname === '/' || pathname.startsWith('/packages')) {
+    // Homepage and package pages - cache for 5 minutes
+    response.headers.set(
+      'Cache-Control',
+      'public, max-age=300, s-maxage=300, stale-while-revalidate=60'
+    )
   }
+
+  // Add CDN-specific headers
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('X-Vercel-Cache', 'MISS') // Will be overridden by CDN
 
   // CORS headers for API routes
   if (pathname.startsWith('/api/')) {

@@ -395,6 +395,264 @@ npm run test:e2e -- --headed
 
 ---
 
+## 🔐 Authentication Testing Guidelines
+
+### Unit Testing Auth Components
+
+#### Registration Component Testing
+```typescript
+describe('RegistrationForm', () => {
+  it('validates password strength requirements', async () => {
+    render(<RegistrationForm />)
+
+    const passwordInput = screen.getByLabelText(/password/i)
+    await user.type(passwordInput, 'weak')
+
+    expect(screen.getByText(/password must be at least 8 characters/i)).toBeVisible()
+  })
+
+  it('handles OAuth registration flow', async () => {
+    const mockGoogleAuth = jest.fn()
+    Object.defineProperty(window, 'google', {
+      value: { accounts: { id: { initialize: mockGoogleAuth } } }
+    })
+
+    render(<RegistrationForm />)
+    await user.click(screen.getByRole('button', { name: /continue with google/i }))
+
+    expect(mockGoogleAuth).toHaveBeenCalled()
+  })
+})
+```
+
+#### Login Component Testing
+```typescript
+describe('LoginForm', () => {
+  it('handles authentication errors correctly', async () => {
+    mockLogin.mockRejectedValue(new Error('Invalid credentials'))
+
+    render(<LoginForm />)
+    await user.type(screen.getByLabelText(/email/i), 'wrong@example.com')
+    await user.type(screen.getByLabelText(/password/i), 'wrongpass')
+    await user.click(screen.getByRole('button', { name: /sign in/i }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent(/invalid credentials/i)
+    })
+  })
+})
+```
+
+### API Testing for Authentication
+
+#### Registration API Testing
+```typescript
+describe('/api/auth/register', () => {
+  it('validates email uniqueness', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue({ id: 'existing-user' })
+
+    const request = createMockRequest({
+      email: 'existing@example.com',
+      password: 'password123'
+    })
+    const response = await POST(request)
+
+    expect(response.status).toBe(409)
+    expect(await response.json()).toEqual({
+      error: 'Email already registered'
+    })
+  })
+
+  it('hashes passwords securely', async () => {
+    const bcrypt = require('bcryptjs')
+    bcrypt.hash.mockResolvedValue('$2b$12$hashedpassword')
+
+    await POST(createMockRequest({
+      email: 'test@example.com',
+      password: 'plaintext'
+    }))
+
+    expect(bcrypt.hash).toHaveBeenCalledWith('plaintext', 12)
+  })
+})
+```
+
+#### OAuth Callback Testing
+```typescript
+describe('/api/auth/oauth/callback', () => {
+  it('handles Google OAuth flow', async () => {
+    mockGoogleOAuth.verifyToken.mockResolvedValue({ valid: true })
+    mockGoogleOAuth.getUserInfo.mockResolvedValue({
+      id: 'google-123',
+      email: 'user@gmail.com',
+      verified_email: true
+    })
+
+    const request = createMockRequest({
+      provider: 'google',
+      code: 'auth-code-123'
+    })
+    const response = await GET(request)
+
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({
+      success: true,
+      user: { email: 'user@gmail.com' }
+    })
+  })
+})
+```
+
+### E2E Authentication Testing
+
+#### Complete Registration Flow
+```typescript
+test('user can complete full registration flow', async ({ page }) => {
+  // Mock successful API responses
+  await page.route('/api/auth/register', async (route) => {
+    await route.fulfill({
+      status: 201,
+      body: JSON.stringify({ success: true, user: { id: '123' } })
+    })
+  })
+
+  // Navigate and fill registration form
+  await page.goto('/auth/register')
+  await page.fill('[data-testid="firstName"]', 'John')
+  await page.fill('[data-testid="email"]', 'john@example.com')
+  await page.fill('[data-testid="password"]', 'SecurePass123!')
+  await page.check('[data-testid="terms"]')
+
+  // Submit and verify redirect
+  await page.click('[data-testid="submit"]')
+  await expect(page).toHaveURL(/\/auth\/verify-email/)
+})
+```
+
+#### OAuth Integration Testing
+```typescript
+test('Google OAuth registration works', async ({ page }) => {
+  // Mock OAuth popup and callback
+  await page.route('**/oauth/callback**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      body: JSON.stringify({ success: true, token: 'jwt-123' })
+    })
+  })
+
+  await page.goto('/auth/register')
+  await page.click('[data-testid="google-oauth"]')
+
+  // Verify successful authentication
+  await expect(page).toHaveURL(/\/dashboard/)
+})
+```
+
+### Database Testing for Authentication
+
+#### Migration Testing
+```typescript
+describe('Auth Schema Migrations', () => {
+  it('creates required authentication tables', async () => {
+    const tables = await prisma.$queryRaw`
+      SELECT table_name FROM information_schema.tables
+      WHERE table_schema = 'public'
+    `
+
+    const tableNames = tables.map(t => t.table_name)
+    expect(tableNames).toContain('users')
+    expect(tableNames).toContain('user_sessions')
+    expect(tableNames).toContain('oauth_accounts')
+    expect(tableNames).toContain('email_verification_tokens')
+  })
+})
+```
+
+#### RLS Policy Testing
+```typescript
+describe('Row Level Security', () => {
+  it('prevents users from accessing other users data', async () => {
+    // Set user context
+    await prisma.$executeRaw`SET app.current_user_id = 'user-123'`
+
+    // Try to access another user's data
+    const users = await prisma.user.findMany({
+      where: { id: 'other-user-456' }
+    })
+
+    // Should return empty due to RLS policy
+    expect(users).toHaveLength(0)
+  })
+})
+```
+
+### Security Testing Best Practices
+
+#### Password Security
+- Test password hashing with bcrypt
+- Validate password strength requirements
+- Test password reset token security
+- Verify session token randomness
+
+#### OAuth Security
+- Test CSRF protection in OAuth flows
+- Validate OAuth token verification
+- Test account linking security
+- Verify OAuth provider validation
+
+#### Session Management
+- Test session expiration
+- Validate session cleanup
+- Test concurrent session limits
+- Verify session hijacking protection
+
+### Authentication Test Data
+
+#### Test Users
+```typescript
+export const testUsers = {
+  validUser: {
+    email: 'test@example.com',
+    password: 'SecurePass123!',
+    firstName: 'Test',
+    lastName: 'User'
+  },
+  adminUser: {
+    email: 'admin@example.com',
+    password: 'AdminPass123!',
+    role: 'ADMIN'
+  },
+  vendorUser: {
+    email: 'vendor@example.com',
+    password: 'VendorPass123!',
+    role: 'VENDOR'
+  }
+}
+```
+
+#### Mock OAuth Responses
+```typescript
+export const mockOAuthResponses = {
+  google: {
+    success: {
+      id: 'google-123',
+      email: 'user@gmail.com',
+      given_name: 'John',
+      family_name: 'Doe',
+      verified_email: true
+    }
+  },
+  facebook: {
+    success: {
+      id: 'facebook-456',
+      email: 'user@facebook.com',
+      first_name: 'Jane',
+      last_name: 'Smith'
+    }
+  }
+}
+```
+
 **Happy Testing! 🧪✨**
 
 *For questions or improvements to this guide, please reach out to the QA team.*

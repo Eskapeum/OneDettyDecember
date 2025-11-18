@@ -1,6 +1,3 @@
-// OneDettyDecember Database Schema
-// Sprint 0 - Initial Schema Design
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,9 +8,401 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// ============================================
-// USER MANAGEMENT
-// ============================================
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model account_lockouts {
+  id        String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  userId    String    @unique
+  attempts  Int?      @default(0)
+  isLocked  Boolean?  @default(false)
+  expiresAt DateTime? @db.Timestamptz(6)
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  users     users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([userId])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model bookings {
+  id          String         @id @default(dbgenerated("(gen_random_uuid())::text"))
+  userId      String
+  packageId   String
+  status      BookingStatus? @default(PENDING)
+  quantity    Int?           @default(1)
+  totalPrice  Decimal        @db.Decimal(10, 2)
+  currency    String?        @default("USD")
+  bookingDate DateTime       @db.Timestamptz(6)
+  metadata    Json?
+  createdAt   DateTime?      @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime?      @default(now()) @db.Timestamptz(6)
+  packages    packages       @relation(fields: [packageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users       users          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payments    payments?
+  reviews     reviews?
+
+  @@index([packageId])
+  @@index([packageId, status], map: "bookings_package_status_idx")
+  @@index([status])
+  @@index([userId])
+  @@index([userId, status], map: "bookings_user_status_idx")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model packages {
+  id             String           @id @default(dbgenerated("(gen_random_uuid())::text"))
+  vendorId       String
+  type           PackageType
+  status         PackageStatus?   @default(DRAFT)
+  title          String
+  description    String
+  price          Decimal          @db.Decimal(10, 2)
+  currency       String?          @default("USD")
+  location       String
+  city           String
+  images         String[]         @default([])
+  capacity       Int?
+  availableSlots Int?
+  startDate      DateTime?        @db.Timestamptz(6)
+  endDate        DateTime?        @db.Timestamptz(6)
+  metadata       Json?
+  createdAt      DateTime?        @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime?        @default(now()) @db.Timestamptz(6)
+  bookings       bookings[]
+  reviews        reviews[]
+  wishlist_items wishlist_items[]
+
+  @@index([city])
+  @@index([metadata], map: "packages_metadata_gin_idx", type: Gin)
+  @@index([startDate])
+  @@index([status])
+  @@index([type])
+  @@index([type, status, city])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model payment_disputes {
+  id          String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  paymentId   String
+  reason      String
+  description String?
+  evidence    Json?     @default("{}")
+  status      String?   @default("OPEN")
+  resolution  String?
+  createdBy   String
+  assignedTo  String?
+  resolvedAt  DateTime? @db.Timestamptz(6)
+  createdAt   DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime? @default(now()) @db.Timestamptz(6)
+  users       users     @relation(fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payments    payments  @relation(fields: [paymentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([createdBy])
+  @@index([paymentId])
+  @@index([status])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model payments {
+  id                String             @id @default(dbgenerated("(gen_random_uuid())::text"))
+  bookingId         String             @unique
+  amount            Decimal            @db.Decimal(10, 2)
+  currency          String?            @default("USD")
+  status            PaymentStatus?     @default(PENDING)
+  provider          PaymentProvider
+  providerPaymentId String?
+  metadata          Json?
+  createdAt         DateTime?          @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime?          @default(now()) @db.Timestamptz(6)
+  payment_disputes  payment_disputes[]
+  bookings          bookings           @relation(fields: [bookingId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([createdAt(sort: Desc), status], map: "payments_created_status_idx")
+  @@index([metadata], map: "payments_metadata_gin_idx", type: Gin)
+  @@index([providerPaymentId])
+  @@index([status])
+  @@index([status, provider])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rate_limit_log {
+  id         String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  identifier String
+  action     String
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@index([createdAt])
+  @@index([identifier, action])
+  @@index([ipAddress])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model reviews {
+  id        String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  userId    String
+  packageId String
+  bookingId String    @unique
+  rating    Int
+  comment   String?
+  images    String[]  @default([])
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  bookings  bookings  @relation(fields: [bookingId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  packages  packages  @relation(fields: [packageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     users     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([packageId])
+  @@index([rating])
+  @@index([userId])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model security_events {
+  id        String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  eventType String
+  userId    String?
+  metadata  Json?     @default("{}")
+  ipAddress String?
+  userAgent String?
+  severity  String?   @default("MEDIUM")
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  users     users?    @relation(fields: [userId], references: [id], onUpdate: NoAction)
+
+  @@index([createdAt(sort: Desc)])
+  @@index([eventType])
+  @@index([ipAddress])
+  @@index([severity])
+  @@index([userId])
+}
+
+model system_logs {
+  id         String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  type       String
+  entityType String?
+  entityId   String?
+  userId     String?
+  data       Json?     @default("{}")
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@index([createdAt])
+  @@index([entityId])
+  @@index([entityType])
+  @@index([type])
+  @@index([userId])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model travelers {
+  id                            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email                         String    @unique
+  timing                        String
+  created_at                    DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at                    DateTime? @default(now()) @db.Timestamptz(6)
+  referral_source               String?
+  utm_source                    String?
+  utm_medium                    String?
+  utm_campaign                  String?
+  user_agent                    String?
+  ip_address                    String?
+  status                        String?   @default("active")
+  invited_at                    DateTime? @db.Timestamptz(6)
+  converted_at                  DateTime? @db.Timestamptz(6)
+  email_verified                Boolean?  @default(false)
+  email_verified_at             DateTime? @db.Timestamptz(6)
+  verification_token            String?
+  verification_token_expires_at DateTime? @db.Timestamptz(6)
+  vibe                          String[]
+  city                          String[]
+
+  @@index([created_at(sort: Desc)], map: "idx_travelers_created_at")
+  @@index([email], map: "idx_travelers_email")
+  @@index([email_verified], map: "idx_travelers_email_verified")
+  @@index([status], map: "idx_travelers_status")
+  @@index([timing], map: "idx_travelers_timing")
+  @@index([verification_token], map: "idx_travelers_verification_token")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model user_profiles {
+  id          String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  userId      String    @unique
+  bio         String?
+  avatar      String?
+  country     String?
+  city        String?
+  dateOfBirth DateTime? @db.Timestamptz(6)
+  preferences Json?
+  createdAt   DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime? @default(now()) @db.Timestamptz(6)
+  users       users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model users {
+  id               String             @id @default(dbgenerated("(gen_random_uuid())::text"))
+  email            String             @unique
+  firstName        String
+  lastName         String
+  phoneNumber      String?
+  role             UserRole?          @default(TRAVELER)
+  status           UserStatus?        @default(ACTIVE)
+  emailVerified    Boolean?           @default(false)
+  createdAt        DateTime?          @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime?          @default(now()) @db.Timestamptz(6)
+  account_lockouts account_lockouts?
+  bookings         bookings[]
+  payment_disputes payment_disputes[]
+  reviews          reviews[]
+  security_events  security_events[]
+  user_profiles    user_profiles?
+  wishlist_items   wishlist_items[]
+
+  @@index([email])
+  @@index([role])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model vendors {
+  id                            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email                         String    @unique
+  business_name                 String
+  role                          String
+  city                          String
+  scale                         String
+  created_at                    DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at                    DateTime? @default(now()) @db.Timestamptz(6)
+  referral_source               String?
+  utm_source                    String?
+  utm_medium                    String?
+  utm_campaign                  String?
+  user_agent                    String?
+  ip_address                    String?
+  status                        String?   @default("pending")
+  approved_at                   DateTime? @db.Timestamptz(6)
+  activated_at                  DateTime? @db.Timestamptz(6)
+  verified                      Boolean?  @default(false)
+  verified_at                   DateTime? @db.Timestamptz(6)
+  verification_notes            String?
+  priority_tier                 String?   @default("standard")
+  email_verified                Boolean?  @default(false)
+  email_verified_at             DateTime? @db.Timestamptz(6)
+  verification_token            String?
+  verification_token_expires_at DateTime? @db.Timestamptz(6)
+  phone_number                  String?
+  whatsapp_number               String?
+  website                       String?
+  business_description          String?
+  services_offered              String[]
+  instagram_handle              String?
+  facebook_url                  String?
+  twitter_handle                String?
+  tiktok_handle                 String?
+  business_address              String?
+  country                       String?   @default("Nigeria")
+  operating_hours               String?
+  languages_spoken              String[]
+  payment_methods               String[]
+  price_range                   String?
+  currency                      String?   @default("NGN")
+  capacity                      Int?
+  amenities                     String[]
+  logo_url                      String?
+  cover_photo_url               String?
+  gallery_photos                String[]
+  video_url                     String?
+  registration_number           String?
+  cancellation_policy           String?
+  accessibility_features        String[]
+
+  @@index([city], map: "idx_vendors_city")
+  @@index([country], map: "idx_vendors_country")
+  @@index([created_at(sort: Desc)], map: "idx_vendors_created_at")
+  @@index([email], map: "idx_vendors_email")
+  @@index([email_verified], map: "idx_vendors_email_verified")
+  @@index([phone_number], map: "idx_vendors_phone_number")
+  @@index([priority_tier], map: "idx_vendors_priority_tier")
+  @@index([role], map: "idx_vendors_role")
+  @@index([scale], map: "idx_vendors_scale")
+  @@index([status], map: "idx_vendors_status")
+  @@index([verification_token], map: "idx_vendors_verification_token")
+  @@index([verified], map: "idx_vendors_verified")
+  @@index([amenities], map: "vendors_amenities_gin_idx", type: Gin)
+  @@index([services_offered], map: "vendors_services_gin_idx", type: Gin)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model waitlist_entries {
+  id        String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  email     String    @unique
+  firstName String?
+  lastName  String?
+  source    String?
+  metadata  Json?
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@index([createdAt])
+  @@index([email])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model wishlist_items {
+  id        String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  userId    String
+  packageId String
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  packages  packages  @relation(fields: [packageId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users     users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([userId, packageId])
+  @@index([userId])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  REFUNDED
+}
+
+enum PackageStatus {
+  DRAFT
+  PUBLISHED
+  SOLD_OUT
+  CANCELLED
+}
+
+enum PackageType {
+  EVENT
+  STAY
+  EXPERIENCE
+  CAR_RENTAL
+  MARKETPLACE_PRODUCT
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYSTACK
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
 
 enum UserRole {
   TRAVELER
@@ -26,52 +415,6 @@ enum UserStatus {
   SUSPENDED
   DELETED
 }
-
-model User {
-  id            String      @id @default(cuid())
-  email         String      @unique
-  firstName     String
-  lastName      String
-  phoneNumber   String?
-  role          UserRole    @default(TRAVELER)
-  status        UserStatus  @default(ACTIVE)
-  emailVerified Boolean     @default(false)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  // Relations
-  profile       UserProfile?
-  bookings      Booking[]
-  reviews       Review[]
-  wishlist      WishlistItem[]
-  vendor        Vendor?
-
-  @@index([email])
-  @@index([role])
-  @@map("users")
-}
-
-model UserProfile {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  bio             String?
-  avatar          String?
-  country         String?
-  city            String?
-  dateOfBirth     DateTime?
-  preferences     Json?    // Store user preferences as JSON
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  // Relations
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("user_profiles")
-}
-
-// ============================================
-// VENDOR MANAGEMENT
-// ============================================
 
 enum VendorStatus {
   PENDING
@@ -87,214 +430,3 @@ enum VendorType {
   CAR_RENTAL
   MARKETPLACE_SELLER
 }
-
-model Vendor {
-  id              String        @id @default(cuid())
-  userId          String        @unique
-  businessName    String
-  businessType    VendorType
-  status          VendorStatus  @default(PENDING)
-  description     String?
-  logo            String?
-  verifiedAt      DateTime?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-
-  // Relations
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  packages        Package[]
-
-  @@index([status])
-  @@index([businessType])
-  @@map("vendors")
-}
-
-// ============================================
-// PACKAGES (Events, Stays, Experiences, Cars)
-// ============================================
-
-enum PackageType {
-  EVENT
-  STAY
-  EXPERIENCE
-  CAR_RENTAL
-  MARKETPLACE_PRODUCT
-}
-
-enum PackageStatus {
-  DRAFT
-  PUBLISHED
-  SOLD_OUT
-  CANCELLED
-}
-
-model Package {
-  id              String         @id @default(cuid())
-  vendorId        String
-  type            PackageType
-  status          PackageStatus  @default(DRAFT)
-  title           String
-  description     String
-  price           Decimal        @db.Decimal(10, 2)
-  currency        String         @default("USD")
-  location        String
-  city            String         // Lagos or Accra
-  images          String[]       // Array of image URLs
-  capacity        Int?           // For events/experiences
-  availableSlots  Int?
-  startDate       DateTime?
-  endDate         DateTime?
-  metadata        Json?          // Flexible field for type-specific data
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-
-  // Relations
-  vendor          Vendor         @relation(fields: [vendorId], references: [id], onDelete: Cascade)
-  bookings        Booking[]
-  reviews         Review[]
-  wishlist        WishlistItem[]
-
-  @@index([type])
-  @@index([status])
-  @@index([city])
-  @@index([startDate])
-  @@map("packages")
-}
-
-// ============================================
-// BOOKINGS
-// ============================================
-
-enum BookingStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
-  COMPLETED
-  REFUNDED
-}
-
-model Booking {
-  id              String         @id @default(cuid())
-  userId          String
-  packageId       String
-  status          BookingStatus  @default(PENDING)
-  quantity        Int            @default(1)
-  totalPrice      Decimal        @db.Decimal(10, 2)
-  currency        String         @default("USD")
-  bookingDate     DateTime
-  metadata        Json?          // Additional booking details
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-
-  // Relations
-  user            User           @relation(fields: [userId], references: [id])
-  package         Package        @relation(fields: [packageId], references: [id])
-  payment         Payment?
-  review          Review?
-
-  @@index([userId])
-  @@index([packageId])
-  @@index([status])
-  @@map("bookings")
-}
-
-// ============================================
-// PAYMENTS
-// ============================================
-
-enum PaymentStatus {
-  PENDING
-  PROCESSING
-  COMPLETED
-  FAILED
-  REFUNDED
-}
-
-enum PaymentProvider {
-  STRIPE
-  PAYSTACK
-}
-
-model Payment {
-  id                String          @id @default(cuid())
-  bookingId         String          @unique
-  amount            Decimal         @db.Decimal(10, 2)
-  currency          String          @default("USD")
-  status            PaymentStatus   @default(PENDING)
-  provider          PaymentProvider
-  providerPaymentId String?         // Stripe/Paystack payment ID
-  metadata          Json?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-
-  // Relations
-  booking           Booking         @relation(fields: [bookingId], references: [id])
-
-  @@index([status])
-  @@index([providerPaymentId])
-  @@map("payments")
-}
-
-// ============================================
-// REVIEWS & RATINGS
-// ============================================
-
-model Review {
-  id              String    @id @default(cuid())
-  userId          String
-  packageId       String
-  bookingId       String    @unique
-  rating          Int       // 1-5
-  comment         String?
-  images          String[]  // Optional review images
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-
-  // Relations
-  user            User      @relation(fields: [userId], references: [id])
-  package         Package   @relation(fields: [packageId], references: [id])
-  booking         Booking   @relation(fields: [bookingId], references: [id])
-
-  @@index([userId])
-  @@index([packageId])
-  @@index([rating])
-  @@map("reviews")
-}
-
-// ============================================
-// WISHLIST
-// ============================================
-
-model WishlistItem {
-  id              String    @id @default(cuid())
-  userId          String
-  packageId       String
-  createdAt       DateTime  @default(now())
-
-  // Relations
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  package         Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, packageId])
-  @@index([userId])
-  @@map("wishlist_items")
-}
-
-// ============================================
-// WAITLIST (Pre-Launch)
-// ============================================
-
-model WaitlistEntry {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  firstName       String?
-  lastName        String?
-  source          String?   // Where they signed up from
-  metadata        Json?     // Additional data
-  createdAt       DateTime  @default(now())
-
-  @@index([email])
-  @@index([createdAt])
-  @@map("waitlist_entries")
-}
-

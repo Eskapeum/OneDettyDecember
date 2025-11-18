@@ -16,12 +16,16 @@
     "test:e2e:ui": "playwright test --ui",
     "test:all": "npm run test:coverage && npm run test:e2e",
     "coverage:report": "node scripts/coverage-report.js",
+    "test:report": "node scripts/generate-test-report.js",
+    "test:report:open": "node scripts/generate-test-report.js && open reports/test-report-*.html",
     "load:smoke": "k6 run tests/load/smoke.test.js",
     "load:auth": "k6 run tests/load/auth.test.js",
     "load:packages": "k6 run tests/load/packages.test.js",
     "load:bookings": "k6 run tests/load/bookings.test.js",
     "load:stress": "k6 run tests/load/stress.test.js",
-    "load:all": "npm run load:smoke && npm run load:auth && npm run load:packages && npm run load:bookings"
+    "load:search": "k6 run tests/load/search-discovery.test.js",
+    "load:all": "npm run load:smoke && npm run load:auth && npm run load:packages && npm run load:bookings",
+    "load:sprint2": "npm run load:smoke && npm run load:search"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
