@@ -22,43 +22,46 @@
 
 ### **TASK 1: Tuesday Content Creation** (3 hours)
 
-#### **TikTok Video 1: Lagos Street Scenes**
-**Post Time:** Tuesday, 12:00 PM EST  
+#### **TikTok Video 1: Lagos & Accra Street Scenes**
+**Post Time:** Tuesday, 12:00 PM EST
 **Duration:** 30-45 seconds
 
 **Video Script:**
 ```
 [Opening shot: Busy Lagos street with yellow danfo buses]
-Text overlay: "This is where Detty December happens 🇳🇬"
+Text overlay: "This is where Detty December happens 🇳🇬🇬🇭"
 
-[Cut to: Victoria Island skyline]
-Text: "Lagos, Nigeria - Africa's party capital"
+[Cut to: Victoria Island skyline, Lagos]
+Text: "Lagos, Nigeria"
 
-[Cut to: Beach scene at sunset]
+[Cut to: Accra Independence Square]
+Text: "Accra, Ghana"
+
+[Cut to: Beach scene at sunset - Labadi Beach, Accra]
 Text: "Beaches by day 🏖️"
 
-[Cut to: Nightclub exterior with lights]
+[Cut to: Nightclub exterior with lights - Lagos]
 Text: "Parties by night 🎉"
 
-[Cut to: Street food vendor]
+[Cut to: Street food vendor - both cities]
 Text: "Amazing food everywhere 🍲"
 
 [Final frame: OneDettyDecember logo]
 Text: "Join the waitlist → link in bio"
-Voiceover: "This is Detty December. Are you ready?"
+Voiceover: "This is Detty December in Lagos AND Accra. Are you ready?"
 ```
 
 **Veo 3.1 Prompt:**
-"Cinematic montage of Lagos, Nigeria: busy street with yellow danfo buses, modern Victoria Island skyline, beautiful beach at sunset, vibrant nightclub exterior with neon lights, street food vendor with jollof rice. Afrobeats music vibe, energetic, colorful, 30 seconds, 1080x1920 vertical format"
+"Cinematic montage of Lagos, Nigeria AND Accra, Ghana: busy Lagos street with yellow danfo buses, modern Victoria Island skyline, Accra Independence Square, Labadi Beach Accra at sunset, vibrant nightclub exterior with neon lights in Lagos, street food vendors in both cities with jollof rice and waakye. Afrobeats music vibe, energetic, colorful, showing BOTH cities equally, 30 seconds, 1080x1920 vertical format"
 
 **Caption:**
-"Lagos during Detty December hits different 🔥 The energy, the vibes, the culture - it's unmatched. Who's ready for December 2026? 🇳🇬✨
+"Lagos AND Accra during Detty December hit different 🔥 Two cities, one incredible experience. The energy, the vibes, the culture - it's unmatched. Who's ready for December 2026? 🇳🇬🇬🇭✨
 
-Join the waitlist (link in bio) and be first to book your Detty December experience!
+Join the waitlist (link in bio) and be first to book your Detty December experience in BOTH cities!
 
-#DettyDecember #Lagos #Nigeria #Afrobeats #TravelAfrica #LagosNigeria #WestAfrica #TravelTikTok #AfricanTravel #PartyInAfrica"
+#DettyDecember #Lagos #Accra #Nigeria #Ghana #Afrobeats #TravelAfrica #WestAfrica #TravelTikTok #AfricanTravel #PartyInAfrica"
 
-**Hashtags:** #DettyDecember #Lagos #Nigeria #Afrobeats #TravelAfrica
+**Hashtags:** #DettyDecember #Lagos #Accra #Nigeria #Ghana #Afrobeats #TravelAfrica
 
 ---
 
@@ -102,17 +105,17 @@ Text: "Plan your 2026 trip with us → Link in bio"
 **Caption:**
 "Detty December 101 📚✨
 
-Most people think it's just parties in Lagos, but there's SO much more to it. Here are 5 things that might surprise you about West Africa's biggest cultural celebration 🌍
+Most people think it's just parties in Lagos, but there's SO much more to it. Detty December happens in BOTH Lagos 🇳🇬 AND Accra 🇬🇭! Here are 5 things that might surprise you about West Africa's biggest cultural celebration 🌍
 
 Planning your first Detty December? Join our waitlist and get:
-✅ Exclusive event access
-✅ Curated experiences
+✅ Exclusive event access in Lagos & Accra
+✅ Curated experiences in both cities
 ✅ Local insider tips
 ✅ Squad travel deals
 
 Link in bio to join the tribe! 🔗
 
-#DettyDecember #Lagos #Accra #TravelAfrica #Afrobeats #WestAfrica #TravelGuide #AfricanCulture #DiasporaTravel #TravelReels"
+#DettyDecember #Lagos #Accra #Nigeria #Ghana #TravelAfrica #Afrobeats #WestAfrica #TravelGuide #AfricanCulture #DiasporaTravel #TravelReels"
 
 ---
 
@@ -141,29 +144,36 @@ Drop a 🔥 if you're bringing the squad!"
 
 ---
 
-#### **Pinterest Pin: Lagos Nightlife Board**
-**Post Time:** Tuesday, 8:00 PM EST  
-**Board:** "Lagos Nightlife Aesthetic"
+#### **Pinterest Pin: Lagos & Accra Nightlife Board**
+**Post Time:** Tuesday, 8:00 PM EST
+**Board:** "Detty December Nightlife Guide"
 
 **Canva Design Instructions:**
 1. Create 1000x1500px pin
-2. Collage style with 6 images:
+2. Split design - Lagos (left) & Accra (right)
+3. Collage style with 8 images total:
+   **Lagos side (4 images):**
    - Nightclub interior with lights
    - Rooftop bar overlooking Lagos
    - Beach party at night
    - DJ performing
+
+   **Accra side (4 images):**
+   - Osu nightclub scene
+   - Labadi Beach party
+   - Rooftop bar in Accra
    - Crowd dancing
-   - Cocktails on bar
-3. Color overlay: Afrobeat Red (#E63946) at 30% opacity
-4. Title (white, bold): "Lagos Nightlife Guide"
-5. Subtitle: "Where to party during Detty December"
-6. OneDettyDecember logo bottom right
+4. Color overlay: Afrobeat Red (#E63946) at 30% opacity
+5. Title (white, bold): "Lagos & Accra Nightlife Guide"
+6. Subtitle: "Where to party during Detty December"
+7. Add flags: 🇳🇬 Lagos | 🇬🇭 Accra
+8. OneDettyDecember logo bottom center
 
 **Pin Title:**
-"Lagos Nightlife Guide: Best Clubs & Parties for Detty December 2026"
+"Lagos & Accra Nightlife Guide: Best Clubs & Parties for Detty December 2026"
 
 **Pin Description:**
-"Discover the best nightlife in Lagos, Nigeria during Detty December. From rooftop bars to beach clubs, here's where to party in West Africa's entertainment capital. Save this guide for your 2026 trip! #LagosNightlife #DettyDecember #Lagos #Nigeria #TravelGuide #Nightlife #AfricanTravel #PartyGuide"
+"Discover the best nightlife in Lagos, Nigeria AND Accra, Ghana during Detty December. From rooftop bars to beach clubs in both cities, here's where to party in West Africa's entertainment capitals. Save this guide for your 2026 trip! #DettyDecember #Lagos #Accra #Nigeria #Ghana #TravelGuide #Nightlife #AfricanTravel #PartyGuide #WestAfrica"
 
 ---
 
