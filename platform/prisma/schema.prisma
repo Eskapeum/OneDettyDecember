@@ -1,0 +1,299 @@
+// OneDettyDecember Database Schema
+// Sprint 0 - Initial Schema Design
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MANAGEMENT
+// ============================================
+
+enum UserRole {
+  TRAVELER
+  VENDOR
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+model User {
+  id            String      @id @default(cuid())
+  email         String      @unique
+  firstName     String
+  lastName      String
+  phoneNumber   String?
+  role          UserRole    @default(TRAVELER)
+  status        UserStatus  @default(ACTIVE)
+  emailVerified Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relations
+  profile       UserProfile?
+  bookings      Booking[]
+  reviews       Review[]
+  wishlist      WishlistItem[]
+  vendor        Vendor?
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+model UserProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  bio             String?
+  avatar          String?
+  country         String?
+  city            String?
+  dateOfBirth     DateTime?
+  preferences     Json?    // Store user preferences as JSON
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+// ============================================
+// VENDOR MANAGEMENT
+// ============================================
+
+enum VendorStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum VendorType {
+  EVENT_PROMOTER
+  ACCOMMODATION_HOST
+  EXPERIENCE_HOST
+  CAR_RENTAL
+  MARKETPLACE_SELLER
+}
+
+model Vendor {
+  id              String        @id @default(cuid())
+  userId          String        @unique
+  businessName    String
+  businessType    VendorType
+  status          VendorStatus  @default(PENDING)
+  description     String?
+  logo            String?
+  verifiedAt      DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  packages        Package[]
+
+  @@index([status])
+  @@index([businessType])
+  @@map("vendors")
+}
+
+// ============================================
+// PACKAGES (Events, Stays, Experiences, Cars)
+// ============================================
+
+enum PackageType {
+  EVENT
+  STAY
+  EXPERIENCE
+  CAR_RENTAL
+  MARKETPLACE_PRODUCT
+}
+
+enum PackageStatus {
+  DRAFT
+  PUBLISHED
+  SOLD_OUT
+  CANCELLED
+}
+
+model Package {
+  id              String         @id @default(cuid())
+  vendorId        String
+  type            PackageType
+  status          PackageStatus  @default(DRAFT)
+  title           String
+  description     String
+  price           Decimal        @db.Decimal(10, 2)
+  currency        String         @default("USD")
+  location        String
+  city            String         // Lagos or Accra
+  images          String[]       // Array of image URLs
+  capacity        Int?           // For events/experiences
+  availableSlots  Int?
+  startDate       DateTime?
+  endDate         DateTime?
+  metadata        Json?          // Flexible field for type-specific data
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  // Relations
+  vendor          Vendor         @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  bookings        Booking[]
+  reviews         Review[]
+  wishlist        WishlistItem[]
+
+  @@index([type])
+  @@index([status])
+  @@index([city])
+  @@index([startDate])
+  @@map("packages")
+}
+
+// ============================================
+// BOOKINGS
+// ============================================
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  REFUNDED
+}
+
+model Booking {
+  id              String         @id @default(cuid())
+  userId          String
+  packageId       String
+  status          BookingStatus  @default(PENDING)
+  quantity        Int            @default(1)
+  totalPrice      Decimal        @db.Decimal(10, 2)
+  currency        String         @default("USD")
+  bookingDate     DateTime
+  metadata        Json?          // Additional booking details
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  // Relations
+  user            User           @relation(fields: [userId], references: [id])
+  package         Package        @relation(fields: [packageId], references: [id])
+  payment         Payment?
+  review          Review?
+
+  @@index([userId])
+  @@index([packageId])
+  @@index([status])
+  @@map("bookings")
+}
+
+// ============================================
+// PAYMENTS
+// ============================================
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYSTACK
+}
+
+model Payment {
+  id                String          @id @default(cuid())
+  bookingId         String          @unique
+  amount            Decimal         @db.Decimal(10, 2)
+  currency          String          @default("USD")
+  status            PaymentStatus   @default(PENDING)
+  provider          PaymentProvider
+  providerPaymentId String?         // Stripe/Paystack payment ID
+  metadata          Json?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  // Relations
+  booking           Booking         @relation(fields: [bookingId], references: [id])
+
+  @@index([status])
+  @@index([providerPaymentId])
+  @@map("payments")
+}
+
+// ============================================
+// REVIEWS & RATINGS
+// ============================================
+
+model Review {
+  id              String    @id @default(cuid())
+  userId          String
+  packageId       String
+  bookingId       String    @unique
+  rating          Int       // 1-5
+  comment         String?
+  images          String[]  // Optional review images
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  user            User      @relation(fields: [userId], references: [id])
+  package         Package   @relation(fields: [packageId], references: [id])
+  booking         Booking   @relation(fields: [bookingId], references: [id])
+
+  @@index([userId])
+  @@index([packageId])
+  @@index([rating])
+  @@map("reviews")
+}
+
+// ============================================
+// WISHLIST
+// ============================================
+
+model WishlistItem {
+  id              String    @id @default(cuid())
+  userId          String
+  packageId       String
+  createdAt       DateTime  @default(now())
+
+  // Relations
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package         Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, packageId])
+  @@index([userId])
+  @@map("wishlist_items")
+}
+
+// ============================================
+// WAITLIST (Pre-Launch)
+// ============================================
+
+model WaitlistEntry {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  firstName       String?
+  lastName        String?
+  source          String?   // Where they signed up from
+  metadata        Json?     // Additional data
+  createdAt       DateTime  @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+  @@map("waitlist_entries")
+}
+
