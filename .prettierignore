@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+build
+dist
+.env*
+*.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.storybook
+storybook-static
+prisma/migrations
+.playwright-mcp

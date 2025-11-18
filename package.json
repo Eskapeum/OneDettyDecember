@@ -43,13 +43,15 @@
     ]
   },
   "devDependencies": {
-    "storybook": "^10.0.8",
-    "@storybook/nextjs": "^10.0.8",
     "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/addon-a11y": "^10.0.8",
     "@storybook/addon-docs": "^10.0.8",
     "@storybook/addon-onboarding": "^10.0.8",
+    "@storybook/addon-vitest": "^10.0.8",
+    "@storybook/nextjs": "^10.0.8",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-storybook": "^10.0.8",
-    "@storybook/addon-a11y": "^10.0.8",
-    "@storybook/addon-vitest": "^10.0.8"
+    "prettier": "^3.6.2",
+    "storybook": "^10.0.8"
   }
 }
