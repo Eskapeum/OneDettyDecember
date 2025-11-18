@@ -1,9 +1,62 @@
 /**
  * Zod validation schemas for OneDettyDecember API
  * Sprint 0 - Day 1
+ * Sprint 1 - Authentication Schemas Added
  */
 
 import { z } from 'zod'
+
+// ============================================
+// AUTHENTICATION SCHEMAS
+// ============================================
+
+export const registerSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(72, 'Password must be less than 72 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number'),
+  firstName: z.string().min(1, 'First name is required').max(100),
+  lastName: z.string().min(1, 'Last name is required').max(100),
+  phoneNumber: z.string().optional(),
+})
+
+export type RegisterInput = z.infer<typeof registerSchema>
+
+export const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
+})
+
+export type LoginInput = z.infer<typeof loginSchema>
+
+export const verifyEmailSchema = z.object({
+  token: z.string().min(1, 'Verification token is required'),
+})
+
+export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>
+
+export const passwordResetRequestSchema = z.object({
+  email: z.string().email('Invalid email address'),
+})
+
+export type PasswordResetRequestInput = z.infer<typeof passwordResetRequestSchema>
+
+export const passwordResetSchema = z.object({
+  token: z.string().min(1, 'Reset token is required'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(72, 'Password must be less than 72 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number'),
+})
+
+export type PasswordResetInput = z.infer<typeof passwordResetSchema>
 
 // ============================================
 // WAITLIST SCHEMAS

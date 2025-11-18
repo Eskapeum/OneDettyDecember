@@ -22,7 +22,7 @@ import { getCurrentUser } from '@/lib/auth-helpers'
 export async function GET(request: NextRequest) {
   try {
     // Get authenticated user
-    const authUser = await getCurrentUser(request)
+    const authUser = await getCurrentUser()
 
     // Fetch user with profile
     const user = await prisma.user.findUnique({
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     // Get authenticated user
-    const authUser = await getCurrentUser(request)
+    const authUser = await getCurrentUser()
 
     // Parse and validate request body
     const body = await request.json()
