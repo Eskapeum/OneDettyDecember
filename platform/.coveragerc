@@ -1,0 +1,31 @@
+# Coverage configuration for OneDettyDecember
+# This file configures test coverage reporting
+
+[run]
+source = src/
+omit = 
+    src/**/*.stories.*
+    src/**/*.test.*
+    src/**/*.spec.*
+    src/**/__tests__/*
+    src/**/__mocks__/*
+    src/**/node_modules/*
+    src/app/layout.tsx
+    src/app/page.tsx
+    src/app/globals.css
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+
+[html]
+directory = coverage/html-report
+title = OneDettyDecember Test Coverage Report
+
+[xml]
+output = coverage/coverage.xml

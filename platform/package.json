@@ -10,8 +10,18 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:coverage:open": "jest --coverage && open coverage/lcov-report/index.html",
+    "test:ci": "jest --coverage --watchAll=false --passWithNoTests",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "test:all": "npm run test:coverage && npm run test:e2e",
+    "coverage:report": "node scripts/coverage-report.js",
+    "load:smoke": "k6 run tests/load/smoke.test.js",
+    "load:auth": "k6 run tests/load/auth.test.js",
+    "load:packages": "k6 run tests/load/packages.test.js",
+    "load:bookings": "k6 run tests/load/bookings.test.js",
+    "load:stress": "k6 run tests/load/stress.test.js",
+    "load:all": "npm run load:smoke && npm run load:auth && npm run load:packages && npm run load:bookings"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
