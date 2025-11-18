@@ -1,7 +1,7 @@
 # OneDettyDecember Design System
 
-**Version:** 1.0.0
-**Last Updated:** November 17, 2025
+**Version:** 2.0.0
+**Last Updated:** November 18, 2025
 **Maintained By:** Dev 7 (TOBI) - Design System & UI/UX Lead
 
 ---
@@ -13,9 +13,13 @@
 3. [Design Tokens](#design-tokens)
 4. [Vertical Theming System](#vertical-theming-system)
 5. [Animation Library](#animation-library)
-6. [Usage Examples](#usage-examples)
-7. [Best Practices](#best-practices)
-8. [Contributing](#contributing)
+6. [Responsive Design Utilities](#responsive-design-utilities)
+7. [Dark Mode System](#dark-mode-system)
+8. [Component Variant System](#component-variant-system)
+9. [Icon System](#icon-system)
+10. [Usage Examples](#usage-examples)
+11. [Best Practices](#best-practices)
+12. [Contributing](#contributing)
 
 ---
 
@@ -28,7 +32,10 @@ The OneDettyDecember Design System provides a comprehensive foundation for build
 - **🎨 Vertical Theming**: Unique visual identity for each marketplace vertical
 - **📦 Design Tokens**: Centralized design variables for consistency
 - **✨ Animation Library**: Smooth, purposeful animations
-- **📱 Responsive**: Mobile-first, works across all screen sizes
+- **📱 Responsive Utilities**: Mobile-first responsive helpers
+- **🌙 Dark Mode**: Complete dark theme with automatic switching
+- **🎯 Component Variants**: Type-safe variant system
+- **🎨 Icon System**: Integrated Lucide icon library
 - **🔒 Type-Safe**: Full TypeScript support
 - **♿ Accessible**: WCAG 2.1 AA compliant colors
 
@@ -36,9 +43,13 @@ The OneDettyDecember Design System provides a comprehensive foundation for build
 
 ```
 src/lib/
-├── design-tokens.ts      # All design tokens (colors, typography, spacing, etc.)
-├── vertical-theme.ts     # Vertical-specific theming utilities
-└── animations.ts         # Animation and transition utilities
+├── design-tokens.ts         # All design tokens (colors, typography, spacing, etc.)
+├── vertical-theme.ts        # Vertical-specific theming utilities
+├── animations.ts            # Animation and transition utilities
+├── responsive-utilities.ts  # Responsive design helpers
+├── dark-mode.ts            # Dark mode system and utilities
+├── component-variants.ts    # Component variant system
+└── icon-system.ts          # Icon integration and utilities
 ```
 
 ---
@@ -381,6 +392,488 @@ transitions.slow  // 'transition-all duration-300 ease-in-out'
 ```
 
 **Use Case:** General transitions, color changes, size adjustments
+
+---
+
+## Responsive Design Utilities
+
+Mobile-first responsive helpers for consistent breakpoint usage and touch-friendly interfaces.
+
+### Import
+
+```typescript
+import {
+  responsive,
+  getContainerClasses,
+  responsiveSpacing,
+  responsiveGrid,
+  responsiveText,
+  responsiveDisplay,
+  touchFriendly,
+  patterns,
+} from '@/lib/responsive-utilities'
+```
+
+### Container System
+
+```typescript
+// Get container with max-width constraint
+getContainerClasses('xl')
+// Returns: 'w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl'
+
+// Get full-width container
+getContainerClasses()
+// Returns: 'w-full mx-auto px-4 sm:px-6 lg:px-8'
+```
+
+### Responsive Spacing
+
+```typescript
+// Progressive padding
+responsiveSpacing.px.all  // 'px-4 sm:px-6 lg:px-8'
+responsiveSpacing.py.all  // 'py-4 sm:py-6 lg:px-8'
+
+// Individual breakpoints
+responsiveSpacing.px.mobile   // 'px-4'
+responsiveSpacing.px.tablet   // 'sm:px-6'
+responsiveSpacing.px.desktop  // 'lg:px-8'
+```
+
+### Responsive Grid
+
+```typescript
+// Common grid patterns
+responsiveGrid.cols['1-2-3']  // 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+responsiveGrid.cols['1-2-4']  // 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+
+// Responsive gap
+responsiveGrid.gap.all  // 'gap-4 sm:gap-6 lg:gap-8'
+```
+
+### Responsive Typography
+
+```typescript
+// Heading sizes that scale with viewport
+responsiveText.h1  // 'text-3xl sm:text-4xl lg:text-5xl'
+responsiveText.h2  // 'text-2xl sm:text-3xl lg:text-4xl'
+responsiveText.body  // 'text-base sm:text-base lg:text-lg'
+```
+
+### Responsive Display
+
+```typescript
+// Hide on mobile, show on desktop
+responsiveDisplay.hideOnMobile  // 'hidden md:block'
+
+// Show on mobile, hide on desktop
+responsiveDisplay.showOnMobile  // 'block md:hidden'
+```
+
+### Touch-Friendly Utilities
+
+**WCAG 2.1 compliant touch targets (minimum 44×44px)**
+
+```typescript
+touchFriendly.minTouchTarget   // 'min-h-[44px] min-w-[44px]'
+touchFriendly.touchTarget      // 'h-12 w-12' (48px)
+touchFriendly.buttonPadding    // 'px-6 py-3'
+touchFriendly.inputHeight      // 'h-12'
+```
+
+### Common Patterns
+
+```typescript
+// Hero section
+patterns.hero.container  // Container with padding
+patterns.hero.title      // Responsive hero title
+patterns.hero.subtitle   // Responsive subtitle
+
+// Card grid
+patterns.cardGrid.container  // 2xl container
+patterns.cardGrid.grid       // Responsive grid (1→2→3 columns)
+
+// Form layout
+patterns.form.container      // Medium container
+patterns.form.inputHeight    // Touch-friendly input height
+```
+
+---
+
+## Dark Mode System
+
+Complete dark theme with automatic system detection and manual toggle.
+
+### Import
+
+```typescript
+import {
+  darkColors,
+  themeUtils,
+  getThemedClasses,
+  getThemedVerticalClasses,
+  darkModePatterns,
+} from '@/lib/dark-mode'
+```
+
+### Theme Management
+
+```typescript
+// Initialize dark mode (call on app load)
+themeUtils.initTheme()
+
+// Set theme manually
+themeUtils.setTheme('dark')   // Force dark
+themeUtils.setTheme('light')  // Force light
+themeUtils.setTheme('system') // Follow system preference
+
+// Get current theme
+const theme = themeUtils.getTheme()  // 'light' | 'dark' | 'system'
+
+// Toggle between light and dark
+themeUtils.toggleTheme()
+```
+
+### Dark Mode Colors
+
+```typescript
+// Dark backgrounds
+darkColors.background.primary    // '#0A0A0A' - Near black
+darkColors.background.secondary  // '#1A1A1A' - Dark gray
+darkColors.background.elevated   // '#303030' - Cards
+
+// Dark text
+darkColors.text.primary    // '#FAFAFA' - Near white
+darkColors.text.secondary  // '#E5E5E5' - Light gray
+```
+
+### Themed Classes
+
+Automatically handle light/dark mode:
+
+```typescript
+// Background classes
+getThemedClasses.bgPrimary     // 'bg-white dark:bg-[#0A0A0A]'
+getThemedClasses.bgSecondary   // 'bg-[#F5F5F5] dark:bg-[#1A1A1A]'
+
+// Text classes
+getThemedClasses.textPrimary   // 'text-[#1A1A1A] dark:text-[#FAFAFA]'
+getThemedClasses.textSecondary // 'text-[#525252] dark:text-[#E5E5E5]'
+
+// Border classes
+getThemedClasses.borderPrimary // 'border-[#E5E5E5] dark:border-[#404040]'
+```
+
+### Vertical Theming with Dark Mode
+
+```typescript
+// Get vertical classes with dark mode support
+getThemedVerticalClasses('events')
+// Returns: 'bg-[#E63946] dark:bg-[#D62839] hover:bg-[#D62839] dark:hover:bg-[#C41F2A] text-white'
+```
+
+### Common Dark Mode Patterns
+
+```typescript
+// Card with dark mode
+darkModePatterns.card
+// Returns: 'bg-white dark:bg-[#303030] text-[#1A1A1A] dark:text-[#FAFAFA] border-[#E5E5E5] dark:border-[#404040] border'
+
+// Input with dark mode
+darkModePatterns.input
+// Button with dark mode
+darkModePatterns.buttonPrimary
+// Heading with dark mode
+darkModePatterns.heading
+```
+
+---
+
+## Component Variant System
+
+Type-safe variant system for consistent component styling across sizes, states, and verticals.
+
+### Import
+
+```typescript
+import {
+  getButtonClasses,
+  getInputClasses,
+  getCardClasses,
+  getBadgeClasses,
+  getAvatarClasses,
+  componentPatterns,
+  type Size,
+  type Variant,
+  type State,
+} from '@/lib/component-variants'
+```
+
+### Size Types
+
+```typescript
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+```
+
+### Variant Types
+
+```typescript
+type Variant = 'solid' | 'outline' | 'ghost' | 'link' | 'gradient'
+```
+
+### State Types
+
+```typescript
+type State = 'default' | 'hover' | 'active' | 'disabled' | 'focus' | 'loading' | 'error' | 'success'
+```
+
+### Button Variants
+
+```typescript
+// Basic button
+getButtonClasses({ size: 'md', variant: 'solid' })
+
+// Vertical button
+getButtonClasses({ size: 'lg', variant: 'solid', vertical: 'events' })
+
+// Outline button
+getButtonClasses({ size: 'md', variant: 'outline' })
+
+// Full-width button
+getButtonClasses({ size: 'md', variant: 'solid', fullWidth: true })
+
+// Custom radius
+getButtonClasses({ size: 'md', variant: 'solid', radius: 'full' })
+```
+
+### Input Variants
+
+```typescript
+// Standard input
+getInputClasses({ size: 'md', variant: 'solid' })
+
+// Error state
+getInputClasses({ size: 'md', variant: 'solid', state: 'error' })
+
+// Success state
+getInputClasses({ size: 'md', variant: 'solid', state: 'success' })
+
+// Ghost input (bottom border only)
+getInputClasses({ size: 'md', variant: 'ghost' })
+```
+
+### Card Variants
+
+```typescript
+// Basic card
+getCardClasses({ variant: 'solid', shadow: 'md' })
+
+// Interactive card (hover effect)
+getCardClasses({ variant: 'outline', interactive: true })
+
+// Vertical border accent
+getCardClasses({ variant: 'outline', vertical: 'events' })
+
+// Large card with custom radius
+getCardClasses({ size: 'lg', variant: 'solid', radius: '2xl' })
+```
+
+### Badge Variants
+
+```typescript
+// Solid badge
+getBadgeClasses({ size: 'sm', variant: 'solid' })
+
+// Vertical badge
+getBadgeClasses({ size: 'md', variant: 'solid', vertical: 'events' })
+
+// Outline badge
+getBadgeClasses({ size: 'sm', variant: 'outline', vertical: 'stays' })
+
+// Ghost badge (translucent background)
+getBadgeClasses({ size: 'md', variant: 'ghost', vertical: 'community' })
+```
+
+### Avatar Variants
+
+```typescript
+// Default avatar
+getAvatarClasses({ size: 'md' })
+
+// Large avatar
+getAvatarClasses({ size: 'lg' })
+
+// Square avatar
+getAvatarClasses({ size: 'md', radius: 'lg' })
+```
+
+### Common Component Patterns
+
+```typescript
+// Primary CTA
+componentPatterns.primaryButton
+// Returns: Large solid button with brand gold
+
+// Secondary button
+componentPatterns.secondaryButton
+// Returns: Medium outline button
+
+// Vertical button
+componentPatterns.verticalButton('events')
+// Returns: Medium solid button with events color
+
+// Standard input
+componentPatterns.standardInput
+// Returns: Medium solid input with proper height
+
+// Interactive card
+componentPatterns.interactiveCard
+// Returns: Outline card with hover effect
+
+// Vertical badge
+componentPatterns.verticalBadge('events')
+// Returns: Small solid badge with events color
+```
+
+---
+
+## Icon System
+
+Integrated Lucide React icon system with size, color, and animation utilities.
+
+### Setup
+
+```bash
+# Install Lucide React
+npm install lucide-react
+```
+
+### Import
+
+```typescript
+// Import icons from Lucide
+import { Heart, User, Calendar, MapPin } from 'lucide-react'
+
+// Import icon utilities
+import { getIconProps, iconPatterns, iconSets } from '@/lib/icon-system'
+```
+
+### Basic Usage
+
+```typescript
+// Basic icon with default size (md = 20px)
+import { Heart } from 'lucide-react'
+<Heart {...getIconProps({ size: 'md', color: 'error' })} />
+
+// Vertical icon
+import { Calendar } from 'lucide-react'
+<Calendar {...getIconProps({ size: 'lg', vertical: 'events' })} />
+
+// Custom color
+import { User } from 'lucide-react'
+<User {...getIconProps({ size: 'sm', color: 'primary' })} />
+```
+
+### Icon Sizes
+
+```typescript
+// Size options: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+iconSizes.xs   // 12px
+iconSizes.sm   // 16px
+iconSizes.md   // 20px (default)
+iconSizes.lg   // 24px
+iconSizes.xl   // 32px
+
+// Custom pixel size
+getIconProps({ size: 28 })  // 28px
+```
+
+### Icon Colors
+
+```typescript
+// Preset colors
+getIconProps({ color: 'primary' })    // #1A1A1A
+getIconProps({ color: 'success' })    // #10B981
+getIconProps({ color: 'error' })      // #EF4444
+getIconProps({ color: 'gold' })       // #FFB700
+
+// Vertical colors
+getIconProps({ vertical: 'events' })     // #E63946
+getIconProps({ vertical: 'stays' })      // #2A9D8F
+getIconProps({ vertical: 'community' })  // #FFD60A
+
+// Custom hex color
+getIconProps({ color: '#FF5733' })
+```
+
+### Common Icon Patterns
+
+```typescript
+// Vertical icon
+import { Calendar } from 'lucide-react'
+<Calendar {...iconPatterns.verticalIcon('events', 'lg')} />
+
+// Success icon
+import { CheckCircle } from 'lucide-react'
+<CheckCircle {...iconPatterns.successIcon('md')} />
+
+// Error icon
+import { XCircle } from 'lucide-react'
+<XCircle {...iconPatterns.errorIcon('md')} />
+
+// Loading spinner
+import { Loader } from 'lucide-react'
+<Loader {...iconPatterns.loadingIcon('md')} />
+// Returns icon with spin animation
+
+// Brand icon
+import { Star } from 'lucide-react'
+<Star {...iconPatterns.brandIcon('lg')} />
+```
+
+### Icon Sets Reference
+
+```typescript
+// Navigation icons
+iconSets.navigation.menu        // 'Menu'
+iconSets.navigation.close       // 'X'
+iconSets.navigation.chevronLeft // 'ChevronLeft'
+
+// User icons
+iconSets.user.user       // 'User'
+iconSets.user.settings   // 'Settings'
+iconSets.user.logout     // 'LogOut'
+
+// Vertical-specific icons
+iconSets.events.calendar     // 'Calendar'
+iconSets.stays.home          // 'Home'
+iconSets.cars.car            // 'Car'
+iconSets.marketplace.tag     // 'Tag'
+iconSets.community.users     // 'Users'
+
+// Status icons
+iconSets.status.checkCircle   // 'CheckCircle'
+iconSets.status.alertCircle   // 'AlertCircle'
+iconSets.status.loading       // 'Loader'
+```
+
+### Icon Animations
+
+```typescript
+// Animated icons
+import { Loader, Heart } from 'lucide-react'
+
+// Spinning icon
+<Loader className={iconAnimations.spin} />
+
+// Pulse animation
+<Heart className={iconAnimations.pulse} />
+
+// Hover effect
+<Heart className={iconAnimations.hover} />
+
+// Rotated icon
+<ChevronRight className={iconAnimations.rotate90} />
+```
 
 ---
 
