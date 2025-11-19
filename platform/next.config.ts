@@ -37,7 +37,6 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
 
   // Experimental features for performance
   experimental: {
@@ -45,20 +44,8 @@ const nextConfig: NextConfig = {
     webpackBuildWorker: true,
   },
 
-  // Webpack configuration
-  webpack: (config, { dev, isServer }) => {
-    // Production optimizations
-    if (!dev && !isServer) {
-      // Enable tree shaking
-      config.optimization = {
-        ...config.optimization,
-        usedExports: true,
-        sideEffects: false,
-      }
-    }
-
-    return config
-  },
+  // Turbopack configuration (empty to silence warning)
+  turbopack: {},
 
   // Headers for CDN optimization
   async headers() {
