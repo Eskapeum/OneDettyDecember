@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import type { VerticalTheme } from '@/lib/types/vertical-themes'
+import type { VerticalTheme } from '@/types/vertical'
 import type { PaymentProvider } from '../payment-method-selector'
 
 // ============================================================================

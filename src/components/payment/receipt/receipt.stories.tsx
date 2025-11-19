@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Receipt, type ReceiptData } from './receipt'
-import type { VerticalTheme } from '@/lib/types/vertical-themes'
+import type { VerticalTheme } from '@/types/vertical'
 
 const meta = {
   title: 'Components/Payment/Receipt',

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import type { VerticalTheme } from '@/lib/types/vertical-themes'
+import type { VerticalTheme } from '@/types/vertical'
 
 // ============================================================================
 // Types

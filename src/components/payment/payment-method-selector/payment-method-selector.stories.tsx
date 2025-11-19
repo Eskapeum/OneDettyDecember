@@ -6,7 +6,7 @@ import {
   PaystackIcon,
   type PaymentMethod,
 } from './payment-method-selector'
-import type { VerticalTheme } from '@/lib/types/vertical-themes'
+import type { VerticalTheme } from '@/types/vertical'
 
 const meta = {
   title: 'Components/Payment/PaymentMethodSelector',
