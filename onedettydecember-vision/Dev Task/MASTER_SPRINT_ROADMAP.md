@@ -91,10 +91,11 @@
 
 ---
 
-### **SPRINT 4: PAYMENTS**
-**Dates:** Jan 13 - Jan 24, 2026  
-**Goal:** Payment processing (Stripe + Paystack)  
+### **SPRINT 4: PAYMENTS** 🚧 **IN PROGRESS**
+**Dates:** Nov 18 - Dec 1, 2025
+**Goal:** Payment processing (Stripe + Paystack)
 **Story Points:** 42 points
+**Status:** 🚧 In Progress (0/42 points)
 
 **Epics:**
 - Epic 4: Payment Integration (42 points)
