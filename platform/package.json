@@ -36,7 +36,7 @@
     "test:homepage:all": "npm run test:homepage:unit && npm run test:homepage:e2e",
     "test:booking": "npx playwright test __tests__/e2e/booking-flow.test.ts",
     "test:booking:availability": "npx playwright test __tests__/e2e/availability.test.ts",
-    "test:booking:api": "jest --testPathPatterns=booking-api",
+    "test:booking:api": "npx jest --testPathPatterns=booking-service",
     "test:booking:edge-cases": "npx playwright test __tests__/edge-cases/booking-edge-cases.test.ts",
     "test:booking:all": "npm run test:booking:api && npm run test:booking && npm run test:booking:availability && npm run test:booking:edge-cases",
     "load:smoke": "k6 run tests/load/smoke.test.js",

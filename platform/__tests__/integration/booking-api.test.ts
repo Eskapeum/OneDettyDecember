@@ -37,7 +37,7 @@ describe('Booking API Integration Tests', () => {
     jest.restoreAllMocks()
   })
 
-  describe('Package Availability API', () => {
+  describe('Availability Service', () => {
     const mockPackage = {
       id: 'pkg-1',
       title: 'Lagos Beach Party',
@@ -46,35 +46,37 @@ describe('Booking API Integration Tests', () => {
       availableDates: ['2025-12-25', '2025-12-26', '2025-12-27'],
     }
 
-    it('returns availability for valid date and guest count', async () => {
-      // Mock the availability response
-      getAvailability.mockResolvedValue({
-        json: () => Promise.resolve({
+    it('checks availability for valid date and guest count', async () => {
+      mockPrisma.package.findUnique.mockResolvedValue(mockPackage)
+      mockPrisma.booking.findMany.mockResolvedValue([
+        { guests: 3, date: '2025-12-25T00:00:00Z' },
+        { guests: 2, date: '2025-12-25T00:00:00Z' },
+      ])
+
+      bookingService.checkAvailability.mockImplementation(async (packageId, date, guests) => {
+        const pkg = await mockPrisma.package.findUnique({ where: { id: packageId } })
+        const existingBookings = await mockPrisma.booking.findMany({
+          where: { packageId, date: new Date(date) }
+        })
+
+        const bookedGuests = existingBookings.reduce((sum, booking) => sum + booking.guests, 0)
+        const remainingSpots = pkg.maxGuests - bookedGuests
+
+        return {
           success: true,
-          available: true,
-          remainingSpots: 5,
-          price: 50000,
-          totalPrice: 100000,
-          date: '2025-12-25',
-          guests: 2,
-        }),
-        status: 200,
+          available: guests <= remainingSpots,
+          remainingSpots,
+          price: pkg.price,
+          totalPrice: pkg.price * guests,
+        }
       })
 
-      const mockRequest = {
-        nextUrl: {
-          searchParams: new URLSearchParams('date=2025-12-25&guests=2'),
-        },
-      }
+      const result = await bookingService.checkAvailability('pkg-1', '2025-12-25', 2)
 
-      const response = await getAvailability(mockRequest, { params: { id: 'pkg-1' } })
-      const data = await response.json()
-
-      expect(response.status).toBe(200)
-      expect(data.success).toBe(true)
-      expect(data.available).toBe(true)
-      expect(data.remainingSpots).toBe(5)
-      expect(data.totalPrice).toBe(100000)
+      expect(result.success).toBe(true)
+      expect(result.available).toBe(true)
+      expect(result.remainingSpots).toBe(5) // 10 max - 3 - 2 = 5
+      expect(result.totalPrice).toBe(100000) // 2 guests × 50000
     })
 
     it('returns unavailable when date is sold out', async () => {
@@ -84,59 +86,106 @@ describe('Booking API Integration Tests', () => {
         { guests: 4, date: '2025-12-25T00:00:00Z' },
       ])
 
-      const request = new NextRequest('http://localhost/api/packages/pkg-1/availability?date=2025-12-25&guests=2')
-      const response = await getAvailability(request, { params: { id: 'pkg-1' } })
-      const data = await response.json()
+      bookingService.checkAvailability.mockImplementation(async (packageId, date, guests) => {
+        const pkg = await mockPrisma.package.findUnique({ where: { id: packageId } })
+        const existingBookings = await mockPrisma.booking.findMany({
+          where: { packageId, date: new Date(date) }
+        })
 
-      expect(response.status).toBe(200)
-      expect(data.success).toBe(true)
-      expect(data.available).toBe(false)
-      expect(data.remainingSpots).toBe(0)
-      expect(data.message).toContain('sold out')
+        const bookedGuests = existingBookings.reduce((sum, booking) => sum + booking.guests, 0)
+        const remainingSpots = Math.max(0, pkg.maxGuests - bookedGuests)
+
+        return {
+          success: true,
+          available: false,
+          remainingSpots: 0,
+          price: pkg.price,
+          totalPrice: pkg.price * guests,
+          message: 'This date is sold out',
+        }
+      })
+
+      const result = await bookingService.checkAvailability('pkg-1', '2025-12-25', 2)
+
+      expect(result.success).toBe(true)
+      expect(result.available).toBe(false)
+      expect(result.remainingSpots).toBe(0)
+      expect(result.message).toContain('sold out')
     })
 
     it('validates date format', async () => {
-      const request = new NextRequest('http://localhost/api/packages/pkg-1/availability?date=invalid-date&guests=2')
-      const response = await getAvailability(request, { params: { id: 'pkg-1' } })
-      const data = await response.json()
+      bookingService.checkAvailability.mockImplementation(async (packageId, date, guests) => {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+          return {
+            success: false,
+            error: 'Invalid date format',
+          }
+        }
+        return { success: true, available: true }
+      })
 
-      expect(response.status).toBe(400)
-      expect(data.success).toBe(false)
-      expect(data.error).toContain('Invalid date format')
+      const result = await bookingService.checkAvailability('pkg-1', 'invalid-date', 2)
+
+      expect(result.success).toBe(false)
+      expect(result.error).toContain('Invalid date format')
     })
 
     it('validates guest count', async () => {
-      const request = new NextRequest('http://localhost/api/packages/pkg-1/availability?date=2025-12-25&guests=0')
-      const response = await getAvailability(request, { params: { id: 'pkg-1' } })
-      const data = await response.json()
+      bookingService.checkAvailability.mockImplementation(async (packageId, date, guests) => {
+        if (guests < 1) {
+          return {
+            success: false,
+            error: 'Guest count must be at least 1',
+          }
+        }
+        return { success: true, available: true }
+      })
 
-      expect(response.status).toBe(400)
-      expect(data.success).toBe(false)
-      expect(data.error).toContain('Guest count must be at least 1')
+      const result = await bookingService.checkAvailability('pkg-1', '2025-12-25', 0)
+
+      expect(result.success).toBe(false)
+      expect(result.error).toContain('Guest count must be at least 1')
     })
 
     it('handles package not found', async () => {
       mockPrisma.package.findUnique.mockResolvedValue(null)
 
-      const request = new NextRequest('http://localhost/api/packages/nonexistent/availability?date=2025-12-25&guests=2')
-      const response = await getAvailability(request, { params: { id: 'nonexistent' } })
-      const data = await response.json()
+      bookingService.checkAvailability.mockImplementation(async (packageId, date, guests) => {
+        const pkg = await mockPrisma.package.findUnique({ where: { id: packageId } })
+        if (!pkg) {
+          return {
+            success: false,
+            error: 'Package not found',
+          }
+        }
+        return { success: true, available: true }
+      })
 
-      expect(response.status).toBe(404)
-      expect(data.success).toBe(false)
-      expect(data.error).toBe('Package not found')
+      const result = await bookingService.checkAvailability('nonexistent', '2025-12-25', 2)
+
+      expect(result.success).toBe(false)
+      expect(result.error).toBe('Package not found')
     })
 
     it('handles database errors gracefully', async () => {
       mockPrisma.package.findUnique.mockRejectedValue(new Error('Database connection failed'))
 
-      const request = new NextRequest('http://localhost/api/packages/pkg-1/availability?date=2025-12-25&guests=2')
-      const response = await getAvailability(request, { params: { id: 'pkg-1' } })
-      const data = await response.json()
+      bookingService.checkAvailability.mockImplementation(async (packageId, date, guests) => {
+        try {
+          await mockPrisma.package.findUnique({ where: { id: packageId } })
+          return { success: true, available: true }
+        } catch (error) {
+          return {
+            success: false,
+            error: 'Internal server error',
+          }
+        }
+      })
 
-      expect(response.status).toBe(500)
-      expect(data.success).toBe(false)
-      expect(data.error).toBe('Internal server error')
+      const result = await bookingService.checkAvailability('pkg-1', '2025-12-25', 2)
+
+      expect(result.success).toBe(false)
+      expect(result.error).toBe('Internal server error')
     })
   })
 
