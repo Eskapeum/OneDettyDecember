@@ -227,19 +227,19 @@
 | Sprint | Planned Points | Completed Points | Velocity |
 |--------|---------------|------------------|----------|
 | Sprint 0 | 15 | ✅ 15 | 100% |
-| Sprint 1 | 45 | - | - |
-| Sprint 2 | 42 | - | - |
-| Sprint 3 | 47 | - | - |
-| Sprint 4 | 42 | - | - |
-| Sprint 5 | 48 | - | - |
-| Sprint 6 | 46 | - | - |
+| Sprint 1 | 45 | ✅ 45 | 100% |
+| Sprint 2 | 42 | ✅ 42 | 100% |
+| Sprint 3 | 47 | 🚧 29 (Day 1) | 62% |
+| Sprint 4 | 42 | 📋 Planned | - |
+| Sprint 5 | 48 | 📋 Planned | - |
+| Sprint 6 | 46 | 📋 Planned | - |
 | Sprint 7 | 47 | - | - |
 | Sprint 8 | 42 | - | - |
 | Sprint 9 | 45 | - | - |
 | Sprint 10 | 48 | - | - |
 | Sprint 11 | 42 | - | - |
 | Sprint 12 | 50 | - | - |
-| **TOTAL** | **559** | **15** | **3%** |
+| **TOTAL** | **559** | **131** | **23%** |
 
 ---
 
