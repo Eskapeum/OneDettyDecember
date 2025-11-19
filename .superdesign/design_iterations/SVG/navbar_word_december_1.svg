@@ -1,0 +1,19 @@
+<!-- OneDettyDecember Logo - Word: December -->
+<svg width="360" height="72" viewBox="0 0 360 72" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">OneDettyDecember Logo - Word December</title>
+  <desc id="desc">Wordmark for the word December in the OneDettyDecember brand style, Detty Gold color.</desc>
+
+  <rect x="0" y="0" width="360" height="72" fill="none" />
+
+  <style>
+    .brand-word {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 32px;
+    }
+  </style>
+
+  <text x="18" y="46" class="brand-word" fill="#FFB700">December</text>
+</svg>
+

@@ -1,0 +1,22 @@
+<!-- OneDettyDecember Navbar Logo - SVG -->
+<svg width="320" height="64" viewBox="0 0 320 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">OneDettyDecember Logo</title>
+  <desc id="desc">Wordmark logo with OneDetty in white and December in Detty Gold on a transparent background.</desc>
+
+  <!-- Transparent background for safe placement on any color -->
+  <rect x="0" y="0" width="320" height="64" fill="none" />
+
+  <style>
+    .brand-main {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 28px;
+    }
+  </style>
+
+  <!-- Wordmark -->
+  <text x="8" y="40" class="brand-main" fill="#FFFFFF">OneDetty</text>
+  <text x="168" y="40" class="brand-main" fill="#FFB700">December</text>
+</svg>
+

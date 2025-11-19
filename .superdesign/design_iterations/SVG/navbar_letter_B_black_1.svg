@@ -1,0 +1,11 @@
+<!-- Uppercase Letter: B (black) -->
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Letter B (black)</title>
+  <desc id="desc">Uppercase letter B in Montserrat bold, black.</desc>
+  <rect x="0" y="0" width="80" height="80" fill="none" />
+  <style>
+    .upper { font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: 48px; }
+  </style>
+  <text x="22" y="54" class="upper" fill="#000000">B</text>
+</svg>
+
