@@ -198,6 +198,50 @@ export const featuredPackagesQuerySchema = z.object({
 export type FeaturedPackagesQuery = z.infer<typeof featuredPackagesQuerySchema>
 
 // ============================================
+// BOOKING SCHEMAS (Sprint 3)
+// ============================================
+
+export const bookingCreateSchema = z.object({
+  packageId: z.string().cuid('Invalid package ID'),
+  bookingDate: z.string().datetime('Invalid booking date'),
+  quantity: z.number().int().min(1, 'Quantity must be at least 1').max(50, 'Quantity cannot exceed 50'),
+  specialRequests: z.string().max(1000, 'Special requests must be less than 1000 characters').optional(),
+  metadata: z.record(z.any()).optional(),
+})
+
+export type BookingCreateInput = z.infer<typeof bookingCreateSchema>
+
+export const bookingUpdateSchema = z.object({
+  status: z.enum(['PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED', 'REFUNDED']).optional(),
+  specialRequests: z.string().max(1000).optional(),
+  metadata: z.record(z.any()).optional(),
+})
+
+export type BookingUpdateInput = z.infer<typeof bookingUpdateSchema>
+
+export const bookingListQuerySchema = z.object({
+  status: z.enum(['PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED', 'REFUNDED']).optional(),
+  packageType: z.enum(['EVENT', 'STAY', 'EXPERIENCE', 'CAR_RENTAL', 'MARKETPLACE_PRODUCT']).optional(),
+  startDate: z.string().datetime().optional(),
+  endDate: z.string().datetime().optional(),
+  page: z.string().regex(/^\d+$/).optional().default('1'),
+  limit: z.string().regex(/^\d+$/).optional().default('20'),
+  sort: z
+    .enum(['date_asc', 'date_desc', 'created_asc', 'created_desc', 'price_asc', 'price_desc'])
+    .optional()
+    .default('created_desc'),
+})
+
+export type BookingListQuery = z.infer<typeof bookingListQuerySchema>
+
+export const availabilityCheckSchema = z.object({
+  date: z.string().datetime('Invalid date'),
+  quantity: z.number().int().min(1, 'Quantity must be at least 1').max(50, 'Quantity cannot exceed 50'),
+})
+
+export type AvailabilityCheckInput = z.infer<typeof availabilityCheckSchema>
+
+// ============================================
 // COMMON VALIDATION HELPERS
 // ============================================
 
