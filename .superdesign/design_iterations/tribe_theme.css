@@ -1,0 +1,177 @@
+/* ONE DETTY TRIBE SECTION - THEME DESIGN */
+/* Extends OneDettyDecember Design Tokens v2.0 */
+
+:root {
+  /* TRIBE SECTION SPECIFIC COLORS */
+  --tribe-bg-dark: #0A1128;              /* Deep navy background */
+  --tribe-bg-overlay: rgba(10, 17, 40, 0.95);
+  --tribe-text-primary: #FFFFFF;
+  --tribe-text-secondary: rgba(255, 255, 255, 0.8);
+  --tribe-text-muted: rgba(255, 255, 255, 0.6);
+  
+  /* GOLD GRADIENT FOR HEADLINE */
+  --tribe-gold-gradient: linear-gradient(135deg, #FFD700 0%, #FFB700 50%, #FFA500 100%);
+  --tribe-gold-glow: 0 0 20px rgba(255, 215, 0, 0.4);
+  
+  /* LIVE TICKER COLORS */
+  --tribe-live-dot: #E63946;             /* Lagos Pulse Red */
+  --tribe-live-bg: rgba(230, 57, 70, 0.1);
+  --tribe-live-border: rgba(230, 57, 70, 0.3);
+  
+  /* STATS CARD COLORS */
+  --tribe-stats-bg: rgba(255, 255, 255, 0.05);
+  --tribe-stats-border: rgba(255, 183, 0, 0.2);
+  --tribe-stats-number: #FFD700;
+  --tribe-stats-label: rgba(255, 255, 255, 0.7);
+  
+  /* IMAGE HOVER EFFECTS */
+  --tribe-image-glow: 0 0 30px rgba(255, 215, 0, 0.6);
+  --tribe-image-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  --tribe-overlay-bg: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%);
+  
+  /* CTA BUTTON */
+  --tribe-cta-gradient: linear-gradient(135deg, #E63946 0%, #FB8500 100%);
+  --tribe-cta-hover: linear-gradient(135deg, #FF4757 0%, #FFA726 100%);
+  --tribe-cta-shadow: 0 8px 24px rgba(230, 57, 70, 0.4);
+  
+  /* ANIMATIONS */
+  --tribe-shuffle-duration: 800ms;
+  --tribe-ticker-duration: 3000ms;
+  --tribe-hover-duration: 400ms;
+  
+  /* SPACING (Tribe-specific) */
+  --tribe-section-padding: 6rem 1.5rem;
+  --tribe-grid-gap: 1rem;
+  --tribe-image-radius: 12px;
+  
+  /* TYPOGRAPHY (Tribe-specific) */
+  --tribe-eyebrow-size: 0.875rem;        /* 14px */
+  --tribe-eyebrow-spacing: 0.15em;
+  --tribe-headline-size: 4rem;           /* 64px */
+  --tribe-subhead-size: 1.25rem;         /* 20px */
+  --tribe-stat-number-size: 2.5rem;      /* 40px */
+  --tribe-stat-label-size: 0.875rem;     /* 14px */
+}
+
+/* TABLET ADJUSTMENTS */
+@media (min-width: 744px) {
+  :root {
+    --tribe-section-padding: 8rem 2rem;
+    --tribe-grid-gap: 1.5rem;
+    --tribe-headline-size: 5rem;         /* 80px */
+    --tribe-subhead-size: 1.5rem;        /* 24px */
+  }
+}
+
+/* DESKTOP ADJUSTMENTS */
+@media (min-width: 1024px) {
+  :root {
+    --tribe-section-padding: 10rem 3rem;
+    --tribe-grid-gap: 2rem;
+    --tribe-headline-size: 6rem;         /* 96px */
+    --tribe-subhead-size: 1.75rem;       /* 28px */
+    --tribe-stat-number-size: 3rem;      /* 48px */
+  }
+}
+
+/* WIDE SCREEN ADJUSTMENTS */
+@media (min-width: 1440px) {
+  :root {
+    --tribe-headline-size: 7rem;         /* 112px */
+  }
+}
+
+/* KEYFRAME ANIMATIONS */
+
+/* Auto-shuffle images */
+@keyframes tribeImageShuffle {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Live ticker scroll */
+@keyframes tribeTickerSlide {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* Live dot pulse */
+@keyframes tribeLivePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+/* Stats counter animation */
+@keyframes tribeCountUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gold shimmer effect */
+@keyframes tribeGoldShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Hover lift effect */
+@keyframes tribeHoverLift {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-8px) scale(1.05);
+  }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tribe-shuffle-duration: 0ms;
+    --tribe-ticker-duration: 0ms;
+    --tribe-hover-duration: 0ms;
+  }
+  
+  @keyframes tribeImageShuffle,
+  @keyframes tribeTickerSlide,
+  @keyframes tribeLivePulse,
+  @keyframes tribeCountUp,
+  @keyframes tribeGoldShimmer,
+  @keyframes tribeHoverLift {
+    0%, 100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
